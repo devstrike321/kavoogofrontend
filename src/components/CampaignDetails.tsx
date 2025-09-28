@@ -12,7 +12,7 @@ const CampaignDetails: React.FC = () => {
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const res = await axios.get(`/api/admins/campaigns/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const res = await axios.get(`/api/campaigns/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
         setCampaign(res.data);
       } catch (err) {
         console.error(err);

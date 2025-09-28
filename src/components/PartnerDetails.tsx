@@ -12,7 +12,7 @@ const PartnerDetails: React.FC = () => {
   useEffect(() => {
     const fetchPartner = async () => {
       try {
-        const res = await axios.get(`/api/admins/partners/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const res = await axios.get(`/api/partners/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
         setPartner(res.data);
       } catch (err) {
         console.error(err);

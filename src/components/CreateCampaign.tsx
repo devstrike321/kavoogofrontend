@@ -45,14 +45,14 @@ const userId = useSelector((state: RootState) => state.auth.userId);
     formData.append('activityType', data.activityType);
     formData.append('startDate', data.startDate);
     formData.append('endDate', data.endDate);
-    formData.append('targetingData.ageMin', data.ageMin);
-    formData.append('targetingData.ageMax', data.ageMax);
+    formData.append('targetingData.minAge', data.minAge);
+    formData.append('targetingData.maxAge', data.maxAge);
     formData.append('targetingData.country', data.country);
     formData.append('targetingData.city', data.city);
     formData.append('targetingData.employmentStatus', data.employmentStatus);
     formData.append('targetingData.educationLevel', data.educationLevel);
-    formData.append('targetingData.salaryMin', data.salaryMin);
-    formData.append('targetingData.salaryMax', data.salaryMax);
+    formData.append('targetingData.minSalary', data.minSalary);
+    formData.append('targetingData.maxSalary', data.maxSalary);
     formData.append('targetingData.maritalStatus', data.maritalStatus);
     formData.append('targetingData.kidsNoKids', data.kidsNoKids);
     formData.append('rewards.amount', data.rewardAmount);
@@ -102,8 +102,8 @@ const userId = useSelector((state: RootState) => state.auth.userId);
         <div className="section-title">{t('userTargeting')}</div>
         <label>{t('ageRange')}</label>
         <div className="min-max-inputs">
-          <input type="number" {...register('ageMin')} placeholder={t('minAge')} />
-          <input type="number" {...register('ageMax')} placeholder={t('maxAge')} />
+          <input type="number" {...register('minAge')} placeholder={t('minAge')} />
+          <input type="number" {...register('maxAge')} placeholder={t('maxAge')} />
         </div>
         <label>{t('country')}</label>
         <select {...register('country')}>
@@ -123,8 +123,8 @@ const userId = useSelector((state: RootState) => state.auth.userId);
         </select>
         <label>{t('salaryRange')}</label>
         <div className="min-max-inputs">
-          <input type="number" {...register('salaryMin')} placeholder={t('minSalary')} />
-          <input type="number" {...register('salaryMax')} placeholder={t('maxSalary')} />
+          <input type="number" {...register('minSalary')} placeholder={t('minSalary')} />
+          <input type="number" {...register('maxSalary')} placeholder={t('maxSalary')} />
         </div>
         <label>{t('maritalStatus')}</label>
         <select {...register('maritalStatus')}>
