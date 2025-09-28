@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Dropzone from 'react-dropzone';
 import { getToken } from '../utils/auth';
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+
+const role = useSelector((state: RootState) => state.auth.role);
+const userId = useSelector((state: RootState) => state.auth.userId);
 
 const CreateCampaign: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [video, setVideo] = useState<File | null>(null);
+  const [partners, setPartners] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const res = await axios.get('/api/admins/partners');
+        setPartners(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPartners();
+  }, []);
+
+  console.log(partners)
 
   const onDrop = (acceptedFiles: File[]) => {
     setVideo(acceptedFiles[0]);
@@ -67,8 +87,8 @@ const CreateCampaign: React.FC = () => {
         <textarea {...register('description')} />
         <label>{t('partner')}</label>
         <select {...register('partner')}>
-          <option value="">{t('select', { defaultValue: 'Select' })}</option>
-          {/* Assume fetched partners, or sample */}
+          {role==="admin" && partners.map(partner => <option key={partner._id} value={partner._id}>{partner.partnerName}</option>)}
+          {role==="partner" && partners.filter(partner => partner._id == userId).map(partner => <option key={partner._id} value={partner._id}>{partner.partnerName}</option>)}
         </select>
         <label>{t('Video')}</label>
         <select {...register('activityType')}>

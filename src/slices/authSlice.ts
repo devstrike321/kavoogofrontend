@@ -4,11 +4,13 @@ import {jwtDecode} from 'jwt-decode';
 interface AuthState {
   token: string | null;
   role: string | null;
+  userId: string | null;
 }
 
 const initialState: AuthState = {
   token: null,
   role: null,
+  userId: null,
 };
 
 const authSlice = createSlice({
@@ -19,6 +21,7 @@ const authSlice = createSlice({
       state.token = action.payload;
       const decoded: any = jwtDecode(action.payload);
       state.role = decoded.role; // Assume backend includes role in token
+      state.userId = decoded._id; // Assume backend includes id in token
     },
     logout: (state) => {
       state.token = null;
