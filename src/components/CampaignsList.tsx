@@ -40,12 +40,12 @@ const CampaignsList: React.FC = () => {
           {campaigns.map(camp => (
             <tr key={camp._id}>
               <td><Link to={`/campaigns/${camp._id}`}>{camp.name}</Link></td>
-              <td>{camp.partner || 'N/A'}</td>
+              <td>{camp.partner[0]?.partnerName || ''}</td>
               <td><span className={`status-badge status-${(camp.status?.toLowerCase() || 'unknown')}`}>{t(camp.status?.toLowerCase() || 'unknown')}</span></td>
-              <td>{camp.activityType || 'N/A'}</td>
-              <td>{camp.startDate || 'N/A'}</td>
-              <td>{camp.endDate || 'N/A'}</td>
-              <td>{camp.creationDate || 'N/A'}</td>
+              <td>{camp.activityType || ''}</td>
+              <td>{camp.startDate || ''}</td>
+              <td>{camp.endDate || ''}</td>
+              <td>{camp.creationDate || ''}</td>
             </tr>
           ))}
         </tbody>

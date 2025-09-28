@@ -70,7 +70,7 @@ const CreateCampaign: React.FC = () => {
           <option value="">{t('select', { defaultValue: 'Select' })}</option>
           {/* Assume fetched partners, or sample */}
         </select>
-        <label>{t('activityType')}</label>
+        <label>{t('Video')}</label>
         <select {...register('activityType')}>
           {getOptions('activityTypes').map(type => <option key={type} value={type}>{type}</option>)}
         </select>
