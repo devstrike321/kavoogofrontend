@@ -6,16 +6,18 @@ import { getToken } from '../utils/auth';
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-const role = useSelector((state: RootState) => state.auth.role);
-
 const CampaignsList: React.FC = () => {
   const { t } = useTranslation();
   const [campaigns, setCampaigns] = useState<any[]>([]);
 
+  const role = useSelector((state: RootState) => state.auth.role);
+  console.log(role);
+
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        if(role !== 'admin' && role !== 'partner') return;
+        if(role !== 'adminUser' && role !== 'partner') return;
         if(role === 'partner'){
           const res = await axios.get('/api/partners/campaigns', { headers: { Authorization: `Bearer ${getToken()}` } });
           setCampaigns(res.data);
@@ -29,6 +31,8 @@ const CampaignsList: React.FC = () => {
     };
     fetchCampaigns();
   }, []);
+
+  console.log(campaigns);
 
   return (
     <div>

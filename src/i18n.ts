@@ -90,7 +90,7 @@ i18n.use(initReactI18next).init({
         maritalStatuses: ['Single', 'Married', 'Divorced', 'Widowed', 'Separated'],
         kidsOptions: ['Yes', 'No'],
         bankAccount: ['Yes', 'No'],
-        activityTypes: ['Video', 'Video Survey', 'Survey'],
+        activityTypes: ['Video', 'Video_Survey', 'Survey'],
         industries: ['Fitness', 'Nutrition', 'Eco', 'Education'],
         roles: ['Admin', 'Manager', 'Support', 'Analyst', 'Developer'],
         // Success/failure
@@ -194,7 +194,7 @@ i18n.use(initReactI18next).init({
         maritalStatuses: ['Célibataire', 'Marié', 'Divorcé', 'Veuf', 'Séparé'],
         kidsOptions: ['Oui', 'Non'],
         bankAccount: ['Oui', 'Non'],
-        activityTypes: ['Vidéo', 'Vidéo Enquête', 'Enquête'],
+        activityTypes: ['Vidéo', 'Vidéo_Enquête', 'Enquête'],
         industries: ['Fitness', 'Nutrition', 'Éco', 'Éducation'],
         roles: ['Admin', 'Manager', 'Support', 'Analyste', 'Développeur'],
         campaignCreated: 'Campagne créée',

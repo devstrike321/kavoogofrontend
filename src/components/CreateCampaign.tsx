@@ -8,8 +8,6 @@ import { getToken } from '../utils/auth';
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-const role = useSelector((state: RootState) => state.auth.role);
-const userId = useSelector((state: RootState) => state.auth.userId);
 
 const CreateCampaign: React.FC = () => {
   const { t } = useTranslation();
@@ -17,6 +15,9 @@ const CreateCampaign: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [video, setVideo] = useState<File | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
+
+const role = useSelector((state: RootState) => state.auth.role);
+const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
     const fetchPartners = async () => {
@@ -87,10 +88,10 @@ const CreateCampaign: React.FC = () => {
         <textarea {...register('description')} />
         <label>{t('partner')}</label>
         <select {...register('partner')}>
-          {role==="admin" && partners.map(partner => <option key={partner._id} value={partner._id}>{partner.partnerName}</option>)}
+          {role==="adminUser" && partners.map(partner => <option key={partner._id} value={partner._id}>{partner.partnerName}</option>)}
           {role==="partner" && partners.filter(partner => partner._id == userId).map(partner => <option key={partner._id} value={partner._id}>{partner.partnerName}</option>)}
         </select>
-        <label>{t('Video')}</label>
+        <label>{t('video')}</label>
         <select {...register('activityType')}>
           {getOptions('activityTypes').map(type => <option key={type} value={type}>{type}</option>)}
         </select>
