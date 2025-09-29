@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getToken } from "../utils/auth";
 
 const TransactionsList: React.FC = () => {
   const { t } = useTranslation();
   const [transactions, setTransactions] = useState<any[]>([]);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -54,7 +55,7 @@ const TransactionsList: React.FC = () => {
           {filteredTransactions.map((tx) => (
             console.log(tx),
             <tr key={tx._id}>
-              <td>{tx.transactionId || ""}</td>
+              <td onClick={() => navigate(`/transactions/${tx._id}`)}>{tx.transactionId || ""}</td>
               <td>{tx.date || ""}</td>
               <td>${tx.campaign[0]?.rewardAmount ?? 0}</td>
               <td>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
@@ -8,6 +8,7 @@ const UserDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [user, setUser] = useState<any>({ targetingData: {}, transactions: [] });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,7 +25,7 @@ const UserDetails: React.FC = () => {
   return (
     <div>
       <h1>{t('userDetails')}</h1>
-      <Link to={`/users/edit/${id}`} className="primary" style={{ float: 'right' }}>{t('edit')}</Link>
+      <button onClick={() => navigate(`/users/edit/${id}`)} className="primary" style={{ float: 'right' }}>{t('edit')}</button>
       <div className="section-title">{t('userProfileDetails')}</div>
       <div className="detail-row">
         <span className="detail-label">{t('lastName', { defaultValue: 'Last Name' })}</span>

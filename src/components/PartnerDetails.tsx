@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
@@ -8,6 +8,7 @@ const PartnerDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [partner, setPartner] = useState<any>({ campaigns: [] });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPartner = async () => {
@@ -24,7 +25,7 @@ const PartnerDetails: React.FC = () => {
   return (
     <div>
       <h1>{t('partnerDetails')}</h1>
-      <Link to={`/partners/edit/${id}`} className="primary" style={{ float: 'right' }}>{t('edit')}</Link>
+      <button onClick={()=>navigate(`/partners/edit/${id}`)} className="primary" style={{ float: 'right' }}>{t('edit')}</button>
       <div className="section-title">{t('partnerInformation', { defaultValue: 'Partner Information' })}</div>
       <div className="detail-row">
         <span className="detail-label">{t('partnerName')}</span>

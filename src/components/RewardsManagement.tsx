@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
 const RewardsManagement: React.FC = () => {
   const { t } = useTranslation();
   const [rewards, setRewards] = useState<any>({ totalCash: 0, providers: [], transactions: [] });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRewards = async () => {
@@ -23,7 +24,7 @@ const RewardsManagement: React.FC = () => {
   return (
     <div>
       <h1>{t('rewards')}</h1>
-      <Link to="/add-reward" className="primary" style={{ float: 'right' }}>{t('addNewReward', { defaultValue: 'Add New Reward' })}</Link>
+      <button onClick={()=>"/add-reward"} className="primary" style={{ float: 'right' }}>{t('addNewReward', { defaultValue: 'Add New Reward' })}</button>
       <div className="section-title">{t('totalRewardsDistributed', { defaultValue: 'Total Rewards Distributed' })}</div>
       <div className="detail-row">
         <span className="detail-label">{t('totalCash')}</span>

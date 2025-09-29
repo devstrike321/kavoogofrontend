@@ -1,16 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCampaignFailure: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div className="failure-message">
       <h1>{t('campaignFailed')}</h1>
       <p>{t('campaignFailedMsg')}</p>
-      <Link to="/campaigns" className="secondary">{t('backToCampaignsList')}</Link>
-      <Link to="/create-campaign" className="primary">{t('retry')}</Link>
+      <button onClick={()=>navigate("/campaigns")} className="secondary">{t('backToCampaignsList')}</button>
+      <button onClick={()=>navigate("/create-campaign")} className="primary">{t('retry')}</button>
     </div>
   );
 };

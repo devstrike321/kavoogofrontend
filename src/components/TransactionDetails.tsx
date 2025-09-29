@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
@@ -8,6 +8,7 @@ const TransactionDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [tx, setTx] = useState<any>({ participant: {} });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTx = async () => {
@@ -75,7 +76,7 @@ const TransactionDetails: React.FC = () => {
         <span className="detail-label">{t('city')}</span>
         <span className="detail-value">{tx.participant.city}</span>
       </div>
-      <Link to="/transactions" className="secondary">{t('back')}</Link>
+      <button onClick={() => navigate("/transactions")} className="secondary">{t('back')}</button>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
@@ -8,6 +8,7 @@ const CampaignDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [campaign, setCampaign] = useState<any>({ targetingData: {}, rewards: {}, budget: {} });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCampaign = async () => {
@@ -24,7 +25,7 @@ const CampaignDetails: React.FC = () => {
   return (
     <div>
       <h1>{t('campaignDetails')}</h1>
-      <Link to={`/campaigns/edit/${id}`} className="primary" style={{ float: 'right' }}>{t('edit')}</Link>
+      <button onClick={()=>navigate(`/campaigns/edit/${id}`)} className="primary" style={{ float: 'right' }}>{t('edit')}</button>
       <div className="section-title">{t('campaignDetails')}</div>
       <div className="detail-row">
         <span className="detail-label">{t('campaignName')}</span>

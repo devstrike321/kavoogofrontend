@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/auth';
 
 const MobileProvidersList: React.FC = () => {
   const { t } = useTranslation();
   const [providers, setProviders] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -23,7 +24,7 @@ const MobileProvidersList: React.FC = () => {
   return (
     <div>
       <h1>{t('mobileProviders')}</h1>
-      <Link to="/add-mobile-provider" className="primary" style={{ float: 'right' }}>{t('addNewProvider', { defaultValue: 'Add New Provider' })}</Link>
+      <button onClick={() => navigate("/add-mobile-provider")} className="primary" style={{ float: 'right' }}>{t('addNewProvider', { defaultValue: 'Add New Provider' })}</button>
       <table className="table">
         <thead>
           <tr>
@@ -35,7 +36,7 @@ const MobileProvidersList: React.FC = () => {
           {providers.map(provider => (
             <tr key={provider._id}>
               <td>${provider.cashAmount}</td>
-              <td><Link to={`/add-mobile-providers/${provider._id}`}>{t('edit', { defaultValue: 'edit' })}</Link></td>
+              <td onClick={() => navigate(`/add-mobile-providers/${provider._id}`)}>{t('edit', { defaultValue: 'edit' })}</td>
             </tr>
           ))}
         </tbody>

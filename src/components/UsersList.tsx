@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/auth';
 
 const UsersList: React.FC = () => {
   const { t } = useTranslation();
   const [users, setUsers] = useState<any[]>([]);
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,7 +41,7 @@ const UsersList: React.FC = () => {
         <tbody>
           {filteredUsers.map(user => (
             <tr key={user._id}>
-              <td><Link to={`/users/${user._id}`}>{user.name}</Link></td>
+              <td onClick={() => navigate(`/users/${user._id}`)}>{user.name}</td>
               <td>{user.city}</td>
               <td>{user.phone}</td>
               <td>{user.lastCampaign || 'N/A'}</td>
