@@ -12,7 +12,7 @@ const MobileProvidersList: React.FC = () => {
   useEffect(() => {
     const fetchProviders = async () => {
       try {
-        const res = await axios.get('/api/providers', { headers: { Authorization: `Bearer ${getToken()}` } });
+        const res = await axios.get('/api/admins/providers', { headers: { Authorization: `Bearer ${getToken()}` } });
         setProviders(res.data);
       } catch (err) {
         console.error(err);
@@ -35,7 +35,7 @@ const MobileProvidersList: React.FC = () => {
         <tbody>
           {providers.map(provider => (
             <tr key={provider._id}>
-              <td>${provider.cashAmount}</td>
+              <td>${provider.balance}</td>
               <td onClick={() => navigate(`/add-mobile-providers/${provider._id}`)}>{t('edit', { defaultValue: 'edit' })}</td>
             </tr>
           ))}

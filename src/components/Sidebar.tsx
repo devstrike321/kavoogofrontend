@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
       <p onClick={()=>navigate("/transactions")} className={`sidebar-item ${isActive('/transactions')}`}>
         <span className="sidebar-icon">💸</span> {t('transactions')}
       </p>
-      {role === 'admin' && (
+      {role === 'adminUser' && (
         <>
           <p onClick={()=>navigate("/team-members")} className={`sidebar-item ${isActive('/team-members')}`}>
             <span className="sidebar-icon">👥</span> {t('teamMembers')}

@@ -147,6 +147,7 @@ button.secondary {
   border-spacing: 0 10px;
   background-color: #FFFFFF;
   border-radius: 8px;
+  border-width: 3px solid #000000;
   overflow: hidden;
 }
 
@@ -158,7 +159,6 @@ button.secondary {
 }
 
 .table th {
-  background-color: #FAF7F5;
   font-weight: bold;
 }
 
@@ -293,8 +293,8 @@ button.secondary {
 
 .detail-row {
   display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
+  justify-content: flex-start;
 }
 
 .detail-label {
@@ -303,5 +303,26 @@ button.secondary {
 }
 
 .detail-value {
+  margin-top: 10px;
+  margin-bottom: 10px;
   color: #4A3F35;
+  border-bottom: 1px solid #000000;
+}
+
+.flex-item-one {
+  /* This item will take up only as much space as its content needs */
+  flex-shrink: 0;
+  padding: 10px;
+  width: 50%;
+}
+
+.flex-item-two {
+  /*
+   * The 'flex' shorthand combines 'flex-grow', 'flex-shrink', and 'flex-basis'.
+   * 0: flex-grow (item will not grow)
+   * 1: flex-shrink (item can shrink if needed)
+   * 50%: flex-basis (initial size is 50%)
+  */
+  flex: 0 1 50%;
+  padding: 10px;
 }

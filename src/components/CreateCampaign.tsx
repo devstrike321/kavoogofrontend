@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,10 @@ import { RootState } from "../store";
 const CreateCampaign: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [video, setVideo] = useState<File | null>(null);
   const [partners, setPartners] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // New loading state
 
   const role = useSelector((state: RootState) => state.auth.role);
   const userId = useSelector((state: RootState) => state.auth.userId);
@@ -21,16 +22,35 @@ const CreateCampaign: React.FC = () => {
   useEffect(() => {
     const fetchPartners = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/admins/partners");
         setPartners(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPartners();
   }, []);
 
-  console.log(partners);
+  const defaultPartnerId =
+    role === "adminUser"
+      ? partners[0]?._id
+      : partners.find((p) => p._id === userId)?._id;
+  
+  const defaultMinAge = 18, defaultMaxAge = 59, defaultMinSalary = 0, defaultMaxSalary = 25000;
+
+  // Set the default partner in form state after fetch
+  useEffect(() => {
+    if (defaultPartnerId) {
+      setValue("partner", defaultPartnerId);
+    }
+    setValue("minAge", defaultMinAge);
+    setValue("maxAge", defaultMaxAge);
+    setValue("minSalary", defaultMinSalary);
+    setValue("maxSalary", defaultMaxSalary);
+  }, [defaultPartnerId, setValue]);
 
   const onDrop = (acceptedFiles: File[]) => {
     setVideo(acceptedFiles[0]);
@@ -44,26 +64,35 @@ const CreateCampaign: React.FC = () => {
     formData.append("activityType", data.activityType);
     formData.append("startDate", data.startDate);
     formData.append("endDate", data.endDate);
-    formData.append("targetingData.minAge", data.minAge);
-    formData.append("targetingData.maxAge", data.maxAge);
-    formData.append("targetingData.country", data.country);
-    formData.append("targetingData.city", data.city);
-    formData.append("targetingData.employmentStatus", data.employmentStatus);
-    formData.append("targetingData.educationLevel", data.educationLevel);
-    formData.append("targetingData.minSalary", data.minSalary);
-    formData.append("targetingData.maxSalary", data.maxSalary);
-    formData.append("targetingData.maritalStatus", data.maritalStatus);
-    formData.append("targetingData.kidsNoKids", data.kidsNoKids);
-    formData.append("rewards.amount", data.rewardAmount);
-    formData.append("budget.totalBudget", data.totalBudget);
-    formData.append("budget.costPerUser", data.costPerUser);
-    formData.append("budget.numberOfUsers", data.numberOfUsers);
+    formData.append("minAge", data.minAge);
+    formData.append("maxAge", data.maxAge);
+    formData.append("country", data.country);
+    formData.append("city", data.city);
+    formData.append("employmentStatus", data.employmentStatus);
+    formData.append("educationLevel", data.educationLevel);
+    formData.append("minSalary", data.minSalary);
+    formData.append("maxSalary", data.maxSalary);
+    formData.append("maritalStatus", data.maritalStatus);
+    formData.append("hasKids", data.kidsNoKids);
+    formData.append("rewardAmount", data.rewardAmount);
+    formData.append("totalBudget", data.totalBudget);
+    formData.append("costPerUser", data.costPerUser);
+    formData.append("maxUsers", data.numberOfUsers);
     formData.append("survey", data.survey);
-    if (video) formData.append("video", video);
+    if (video) {
+      formData.append("video", video);
+    }
+    if (data.activityType != "Survey" && !video) {
+      alert("This campaign must include a video file...");
+      return;
+    }
+    if (data.activityType != "Video" && !data.survey) {
+      alert("This campaign must include survey questions...");
+      return;
+    }
     try {
       await axios.post("/api/campaigns", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${getToken()}`,
         },
       });
@@ -81,7 +110,7 @@ const CreateCampaign: React.FC = () => {
 
   const dropzone = (
     <Dropzone onDrop={onDrop}>
-      {({ getRootProps, getInputProps, open }) => (
+      {({ getRootProps, getInputProps }) => (
         <div {...getRootProps()} className="dropzone">
           <input {...getInputProps()} />
           <p>{t("dragOrBrowse")}</p>
@@ -101,6 +130,7 @@ const CreateCampaign: React.FC = () => {
   return (
     <div>
       <h1>{t("createCampaign")}</h1>
+      {loading && <p>Loading partners...</p>} {/* Optional feedback */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="section-title">{t("campaignDetails")}</div>
         <label>{t("campaignName")}</label>
@@ -108,7 +138,11 @@ const CreateCampaign: React.FC = () => {
         <label>{t("description")}</label>
         <textarea {...register("description")} />
         <label>{t("partner")}</label>
-        <select {...register("partner")}>
+        <select
+          {...register("partner", {
+            required: true,
+          })}
+        >
           {role === "adminUser" &&
             partners.map((partner) => (
               <option key={partner._id} value={partner._id}>
@@ -124,6 +158,7 @@ const CreateCampaign: React.FC = () => {
                 </option>
               ))}
         </select>
+        {errors.partner && <p style={{ color: "red" }}>{t("partnerRequired", { defaultValue: "Partner is required" })}</p>} {/* Display error */}
         <label>{t("video")}</label>
         <select {...register("activityType")}>
           {getOptions("activityTypes").map((type) => (
@@ -230,10 +265,7 @@ const CreateCampaign: React.FC = () => {
             defaultValue: "Enter survey link",
           })}
         />
-        <button
-          className="primary"
-          type="submit"
-        >
+        <button className="primary" type="submit" disabled={loading || !defaultPartnerId}>
           {t("create")}
         </button>
       </form>

@@ -53,7 +53,6 @@ const TransactionsList: React.FC = () => {
         </thead>
         <tbody>
           {filteredTransactions.map((tx) => (
-            console.log(tx),
             <tr key={tx._id}>
               <td onClick={() => navigate(`/transactions/${tx._id}`)}>{tx.transactionId || ""}</td>
               <td>{tx.date || ""}</td>

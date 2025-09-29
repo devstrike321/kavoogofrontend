@@ -11,7 +11,7 @@ const AddMobileProvider: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      await axios.post('/api/providers', data);
+      await axios.post('/api/admins/providers', data);
       navigate('/mobile-providers');
     } catch (err) {
       alert(t('addFailed'));
@@ -23,7 +23,7 @@ const AddMobileProvider: React.FC = () => {
       <h1>{t('addNewMobileProvider', { defaultValue: 'Add New Mobile Provider' })}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('cashAmount')}</label>
-        <input type="number" {...register('cashAmount')} />
+        <input type="number" {...register('balance')} />
         <button className="primary" type="submit">{t('save')}</button>
         <button className="secondary" type="button" onClick={() => navigate('/mobile-providers')}>{t('cancel')}</button>
       </form>

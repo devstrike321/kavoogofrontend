@@ -1,115 +1,176 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { getToken } from '../utils/auth';
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { getToken } from "../utils/auth";
 
 const CampaignDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const [campaign, setCampaign] = useState<any>({ targetingData: {}, rewards: {}, budget: {} });
+  const [campaign, setCampaign] = useState<any>(null); // Start with null for clearer loading check
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState<string | null>(null); // Add error state
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const res = await axios.get(`/api/campaigns/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const res = await axios.get(`/api/campaigns/${id}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
         setCampaign(res.data);
       } catch (err) {
         console.error(err);
+        setError("Failed to load campaign details."); // Set error message
+      } finally {
+        setLoading(false); // Always stop loading
       }
     };
     fetchCampaign();
-  }, [id]);
+  }, [id]); // Add 'id' to deps if it might change, but [] is fine if static
+
+  if (loading) {
+    return <div>{t("loading", { defaultValue: "Loading..." })}</div>; // Simple loading indicator
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Error fallback
+  }
+
+  if (!campaign) {
+    return (
+      <div>{t("noData", { defaultValue: "No campaign data found." })}</div>
+    ); // Edge case
+  }
 
   return (
     <div>
-      <h1>{t('campaignDetails')}</h1>
-      <button onClick={()=>navigate(`/campaigns/edit/${id}`)} className="primary" style={{ float: 'right' }}>{t('edit')}</button>
-      <div className="section-title">{t('campaignDetails')}</div>
+      <h1>{t("campaignDetails")}</h1>
+      <div className="section-title">{t("campaignDetails")}</div>
       <div className="detail-row">
-        <span className="detail-label">{t('campaignName')}</span>
-        <span className="detail-value">{campaign.name}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("campaignName")}</div>
+          <div className="detail-value">{campaign.name ?? ""}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("description")}</div>
+          <div className="detail-value">{campaign.description ?? ""}</div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('description')}</span>
-        <span className="detail-value">{campaign.description}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("partner")}</div>
+          <div className="detail-value">{campaign.partner ?? ""}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("activityType")}</div>
+          <div className="detail-value">{campaign.activityType ?? ""}</div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('partner')}</span>
-        <span className="detail-value">{campaign.partner}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("startDate")}</div>
+          <div className="detail-value">{campaign.startDate ?? ""}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("endDate")}</div>
+          <div className="detail-value">{campaign.endDate ?? ""}</div>
+        </div>
+      </div>
+      <div className="section-title">
+        {t("userTargeting", { defaultValue: "User Targeting" })}
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('activityType')}</span>
-        <span className="detail-value">{campaign.activityType}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("ageRange")}</div>
+          <div className="detail-value">
+            {campaign.minAge ?? "18"} - {campaign.maxAge ?? "59"}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("country")}</div>
+          <div className="detail-value">
+            {campaign.country ?? "Côte d’Ivoire"}
+          </div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('startDate')}</span>
-        <span className="detail-value">{campaign.startDate}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("city")}</div>
+          <div className="detail-value">{campaign.city ?? "Abidjan"}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("employmentStatus")}</div>
+          <div className="detail-value">
+            {campaign.employmentStatus ?? "Employed"}
+          </div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('endDate')}</span>
-        <span className="detail-value">{campaign.endDate}</span>
-      </div>
-      <div className="section-title">{t('userTargeting', { defaultValue: 'User Targeting' })}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('ageRange')}</span>
-        <span className="detail-value">{campaign.targetingData.ageMin} - {campaign.targetingData.ageMax}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('country')}</span>
-        <span className="detail-value">{campaign.targetingData.country}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('city')}</span>
-        <span className="detail-value">{campaign.targetingData.city}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("educationLevel")}</div>
+          <div className="detail-value">
+            {campaign.educationLevel ?? "primary school"}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("salaryRange")}</div>
+          <div className="detail-value">
+            {campaign.salaryMin ?? "0"} - {campaign.salaryMax ?? "25000"}
+          </div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('employmentStatus')}</span>
-        <span className="detail-value">{campaign.targetingData.employmentStatus}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("maritalStatus")}</div>
+          <div className="detail-value">
+            {campaign.maritalStatus ?? "Single"}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("kidsNoKids")}</div>
+          <div className="detail-value">{campaign.kidsNoKids ?? "Yes"}</div>
+        </div>
+      </div>
+      <div className="section-title">{t("rewards")}</div>
+      <div className="detail-row">
+        <div className="flex-item-one">
+          <div className="detail-label">
+            {t("rewardType", { defaultValue: "Cash" })}
+          </div>
+          <div className="detail-value">Cash</div>{" "}
+          {/* Assuming this is static; adjust if dynamic */}
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("amount")}</div>
+          <div className="detail-value">${campaign.rewardAmound ?? "500"}</div>
+        </div>
+      </div>
+      <div className="section-title">
+        {t("budgetAndLimit", { defaultValue: "Budget and Limit" })}
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('educationLevel')}</span>
-        <span className="detail-value">{campaign.targetingData.educationLevel}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("totalBudget")}</div>
+          <div className="detail-value">${campaign.totalBudget ?? ""}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("costPerUser")}</div>
+          <div className="detail-value">${campaign.costPerUser ?? ""}</div>
+        </div>
       </div>
+      <div className="section-title">{t("content")}</div>
       <div className="detail-row">
-        <span className="detail-label">{t('salaryRange')}</span>
-        <span className="detail-value">{campaign.targetingData.salaryMin} - {campaign.targetingData.salaryMax}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('maritalStatus')}</span>
-        <span className="detail-value">{campaign.targetingData.maritalStatus}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('kidsNoKids')}</span>
-        <span className="detail-value">{campaign.targetingData.kidsNoKids}</span>
-      </div>
-      <div className="section-title">{t('rewards')}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('rewardType', { defaultValue: 'Reward Type' })}</span>
-        <span className="detail-value">Cash</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('amount')}</span>
-        <span className="detail-value">${campaign.rewards.amount}</span>
-      </div>
-      <div className="section-title">{t('budgetAndLimit', { defaultValue: 'Budget and Limit' })}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('totalBudget')}</span>
-        <span className="detail-value">${campaign.budget.totalBudget}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('costPerUser')}</span>
-        <span className="detail-value">${campaign.budget.costPerUser}</span>
-      </div>
-      <div className="section-title">{t('content')}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('video')}</span>
-        <span className="detail-value">{campaign.video || 'Video thumbnail'}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('surveyLink')}</span>
-        <span className="detail-value">{campaign.survey}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("video")}</div>
+          <div className="detail-value">
+            {campaign.video?.url ?? "Video thumbnail"}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("surveyLink")}</div>
+          <div className="detail-value">{campaign.survey ?? "No Survey Link"}</div>
+        </div>
       </div>
     </div>
   );

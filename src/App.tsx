@@ -37,14 +37,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store";
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
-  const token = useSelector((state: RootState) => state.auth.token);
-  if (!token) return <Navigate to="/login" />;
+  const { token } = useSelector((state: RootState) => state.auth);
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
   return children;
 };
 
 const AdminOnlyRoute = ({ children }: { children: React.JSX.Element }) => {
   const role = useSelector((state: RootState) => state.auth.role);
-  if (role !== "admin") return <Navigate to="/dashboard" />;
+  if (role !== "adminUser") return <Navigate to="/dashboard" />;
   return children;
 };
 

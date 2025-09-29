@@ -11,7 +11,6 @@ const CampaignsList: React.FC = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
 
   const role = useSelector((state: RootState) => state.auth.role);
-  console.log(role);
 
   const navigate = useNavigate();
 

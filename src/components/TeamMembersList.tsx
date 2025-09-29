@@ -9,6 +9,7 @@ const TeamMembersList: React.FC = () => {
   const [team, setTeam] = useState<any[]>([]);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const fetchTeam = async () => {
       try {
@@ -42,7 +43,7 @@ const TeamMembersList: React.FC = () => {
               <td>{member.name}</td>
               <td>{member.email}</td>
               <td>{member.role}</td>
-              <td><span className={`status-badge status-${member.status.toLowerCase()}`}>{t(member.status.toLowerCase())}</span></td>
+              <td><span className={`status-badge status-${member.status?.toLowerCase() || 'active'}`}>{t(member.status?.toLowerCase() || 'active')}</span></td>
               <td onClick={() => navigate(`/team-members/edit/${member._id}`)}>{t('edit')}</td>
             </tr>
           ))}

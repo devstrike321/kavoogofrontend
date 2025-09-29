@@ -1,77 +1,112 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { getToken } from '../utils/auth';
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { getToken } from "../utils/auth";
 
 const RewardsManagement: React.FC = () => {
   const { t } = useTranslation();
-  const [rewards, setRewards] = useState<any>({ totalCash: 0, providers: [], transactions: [] });
+  const [providers, setProviders] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRewards = async () => {
+    const fetchProviders = async () => {
       try {
-        const res = await axios.get('/api/rewards', { headers: { Authorization: `Bearer ${getToken()}` } }); // Assume endpoint
-        setRewards(res.data);
+        const res = await axios.get("/api/admins/providers", {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        setProviders(res.data);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchRewards();
+    fetchProviders();
   }, []);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const res = await axios.get("/api/transactions", {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        setTransactions(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  let totalCash = 0;
+
+  transactions.map((tx) => {
+    totalCash += tx.campaign[0]?.rewardAmount || 0;
+  });
+
 
   return (
     <div>
-      <h1>{t('rewards')}</h1>
-      <button onClick={()=>"/add-reward"} className="primary" style={{ float: 'right' }}>{t('addNewReward', { defaultValue: 'Add New Reward' })}</button>
-      <div className="section-title">{t('totalRewardsDistributed', { defaultValue: 'Total Rewards Distributed' })}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('totalCash')}</span>
-        <span className="detail-value">${rewards.totalCash}</span>
+      <h1>{t("rewards")}</h1>
+      <div className="section-title">
+        {t("totalRewardsDistributed", {
+          defaultValue: "Total Rewards Distributed",
+        })}
       </div>
-      <div className="section-title">{t('mobileProviders')}</div>
+      <div className="stat-card" style={{width:"30%"}}>
+        <div className="stat-label">{t("totalCash")}</div>
+        <div className="stat-value">${totalCash}</div>
+      </div>
+      <div className="section-title">{t("mobileProviders")}</div>
       <table className="table">
         <thead>
           <tr>
-            <th>{t('provider')}</th>
-            <th>{t('cashAmount')}</th>
+            <th>{t("cashAmount")}</th>
           </tr>
         </thead>
         <tbody>
-          {rewards.providers.map((prov: any) => (
+          {providers.map((prov: any) => (
             <tr key={prov._id}>
-              <td>{prov.providerName}</td>
-              <td>${prov.cashAmount}</td>
+              <td>${prov.balance}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="section-title">{t('rewardTransactions', { defaultValue: 'Reward Transactions' })}</div>
+      <div className="section-title">
+        {t("rewardTransactions", { defaultValue: "Reward Transactions" })}
+      </div>
       <table className="table">
         <thead>
           <tr>
-            <th>{t('transactionId')}</th>
-            <th>{t('date')}</th>
-            <th>{t('type', { defaultValue: 'Type' })}</th>
-            <th>{t('amount')}</th>
-            <th>{t('status')}</th>
-            <th>{t('campaign')}</th>
-            <th>{t('partner')}</th>
-            <th>{t('user')}</th>
+            <th>{t("transactionId")}</th>
+            <th>{t("date")}</th>
+            <th>{t("type", { defaultValue: "Type" })}</th>
+            <th>{t("amount")}</th>
+            <th>{t("status")}</th>
+            <th>{t("campaign")}</th>
+            <th>{t("partner")}</th>
+            <th>{t("user")}</th>
           </tr>
         </thead>
         <tbody>
-          {rewards.transactions.map((tx: any) => (
+          {transactions.map((tx: any) => (
             <tr key={tx._id}>
-              <td>{tx.id}</td>
+              <td>{tx.transactionId}</td>
               <td>{tx.date}</td>
-              <td>{tx.type}</td>
-              <td>${tx.amount}</td>
-              <td><span className={`status-badge status-${tx.status.toLowerCase()}`}>{t(tx.status.toLowerCase())}</span></td>
+              <td>{"Cash"}</td>
+              <td>${tx.campaign[0]?.rewardAmount || 0}</td>
+              <td>
+                <span
+                  className={`status-badge status-${
+                    tx.status?.toLowerCase() || "failed"
+                  }`}
+                >
+                  {t(tx.status?.toLowerCase() || "failed")}
+                </span>
+              </td>
               <td>{tx.campaign}</td>
-              <td>{tx.partner}</td>
-              <td>{tx.user}</td>
+              <td>{tx.campaign[0]?.partner[0]?.partnerName}</td>
+              <td>{tx.user?.firstName}</td>
             </tr>
           ))}
         </tbody>
