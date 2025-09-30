@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { getToken } from '../utils/auth';
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { getToken } from "../utils/auth";
 
 const UserDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const [user, setUser] = useState<any>({ targetingData: {}, transactions: [] });
+  const [user, setUser] = useState<any>({
+    targetingData: {},
+    transactions: [],
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`/api/admins/users/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
+        const res = await axios.get(`/api/admins/users/${id}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
         setUser(res.data);
       } catch (err) {
         console.error(err);
@@ -24,68 +29,102 @@ const UserDetails: React.FC = () => {
 
   return (
     <div>
-      <h1>{t('userDetails')}</h1>
-      <button onClick={() => navigate(`/users/edit/${id}`)} className="primary" style={{ float: 'right' }}>{t('edit')}</button>
-      <div className="section-title">{t('userProfileDetails')}</div>
+      <h1>{t("userDetails")}</h1>
+      <button
+        onClick={() => navigate(`/users/edit/${id}`)}
+        className="primary"
+        style={{ float: "right" }}
+      >
+        {t("edit")}
+      </button>
+      <div className="section-title">{t("userProfileDetails")}</div>
       <div className="detail-row">
-        <span className="detail-label">{t('lastName', { defaultValue: 'Last Name' })}</span>
-        <span className="detail-value">{user.lastName}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">
+            {t("lastName", { defaultValue: "Last Name" })}
+          </div>
+          <div className="detail-value">{user.lastName || ''}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">
+            {t("firstName", { defaultValue: "First Name" })}
+          </div>
+          <div className="detail-value">{user.firstName || ''}</div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('firstName', { defaultValue: 'First Name' })}</span>
-        <span className="detail-value">{user.firstName}</span>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("phone")}</div>
+          <div className="detail-value">{user.phone || '+1234567890'}</div>
+        </div>
+      </div>
+      <div className="section-title">{t("targetingData")}</div>
+      <div className="detail-row">
+        <div className="flex-item-one">
+          <div className="detail-label">
+            {t("dateOfBirth", { defaultValue: "Date of Birth" })}
+          </div>
+          <div className="detail-value">{user.dateOfBirth || ''}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("country")}</div>
+          <div className="detail-value">{user.country || ''}</div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('phone')}</span>
-        <span className="detail-value">{user.phone}</span>
-      </div>
-      <div className="section-title">{t('targetingData')}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('dateOfBirth', { defaultValue: 'Date of Birth' })}</span>
-        <span className="detail-value">{user.targetingData.dateOfBirth}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('country')}</span>
-        <span className="detail-value">{user.targetingData.country}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('city')}</span>
-        <span className="detail-value">{user.targetingData.city}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("city")}</div>
+          <div className="detail-value">{user.city || ''}</div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("employmentStatus")}</div>
+          <div className="detail-value">
+            {user.employmentStatus || ''}
+          </div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('employmentStatus')}</span>
-        <span className="detail-value">{user.targetingData.employmentStatus}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("educationLevel")}</div>
+          <div className="detail-value">
+            {user.educationLevel || ''}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("salaryRange")}</div>
+          <div className="detail-value">{user.salaryRange || ''}</div>
+        </div>
       </div>
       <div className="detail-row">
-        <span className="detail-label">{t('educationLevel')}</span>
-        <span className="detail-value">{user.targetingData.educationLevel}</span>
+        <div className="flex-item-one">
+          <div className="detail-label">{t("maritalStatus")}</div>
+          <div className="detail-value">
+            {user.maritalStatus || ''}
+          </div>
+        </div>
+        <div className="flex-item-two">
+          <div className="detail-label">{t("kidsNoKids")}</div>
+          <div className="detail-value">{user.kidsNoKids || ''}</div>
+        </div>
       </div>
+      <div className="section-title">{t("rewards")}</div>
       <div className="detail-row">
-        <span className="detail-label">{t('salaryRange')}</span>
-        <span className="detail-value">{user.targetingData.salaryRange}</span>
+        <div className="flex-item-two">
+          <div className="detail-label">
+            {t("cumulativeCash", { defaultValue: "Cumulative Cash" })}
+          </div>
+          <div className="detail-value">${user.rewards || ''}</div>
+        </div>
       </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('maritalStatus')}</span>
-        <span className="detail-value">{user.targetingData.maritalStatus}</span>
-      </div>
-      <div className="detail-row">
-        <span className="detail-label">{t('kidsNoKids')}</span>
-        <span className="detail-value">{user.targetingData.kidsNoKids}</span>
-      </div>
-      <div className="section-title">{t('rewards')}</div>
-      <div className="detail-row">
-        <span className="detail-label">{t('cumulativeCash', { defaultValue: 'Cumulative Cash' })}</span>
-        <span className="detail-value">${user.rewards}</span>
-      </div>
-      <div className="section-title">{t('transactionDetails')}</div>
+      <div className="section-title">{t("transactionDetails")}</div>
       <table className="table">
         <thead>
           <tr>
-            <th>{t('campaignName')}</th>
-            <th>{t('activityType')}</th>
-            <th>{t('partner')}</th>
-            <th>{t('status')}</th>
-            <th>{t('date')}</th>
+            <th>{t("campaignName")}</th>
+            <th>{t("activityType")}</th>
+            <th>{t("partner")}</th>
+            <th>{t("status")}</th>
+            <th>{t("date")}</th>
           </tr>
         </thead>
         <tbody>
@@ -94,7 +133,13 @@ const UserDetails: React.FC = () => {
               <td>{tx.campaignName}</td>
               <td>{tx.activityType}</td>
               <td>{tx.partner}</td>
-              <td><span className={`status-badge status-${tx.status.toLowerCase()}`}>{t(tx.status.toLowerCase())}</span></td>
+              <td>
+                <div
+                  className={`status-badge status-${tx.status?.toLowerCase() || ''}`}
+                >
+                  {t(tx.status?.toLowerCase() || '')}
+                </div>
+              </td>
               <td>{tx.date}</td>
             </tr>
           ))}

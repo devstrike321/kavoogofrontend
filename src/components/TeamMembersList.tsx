@@ -44,7 +44,7 @@ const TeamMembersList: React.FC = () => {
               <td>{member.email}</td>
               <td>{member.role}</td>
               <td><span className={`status-badge status-${member.status?.toLowerCase() || 'active'}`}>{t(member.status?.toLowerCase() || 'active')}</span></td>
-              <td onClick={() => navigate(`/team-members/edit/${member._id}`)}>{t('edit')}</td>
+              <td><button className = "primary" onClick={() => navigate(`/team-members/edit/${member._id}`)}>{t('edit')}</button></td>
             </tr>
           ))}
         </tbody>
