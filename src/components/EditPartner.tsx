@@ -21,7 +21,7 @@ const EditPartner: React.FC = () => {
         setValue('status', partner.status);
         setValue('contactPerson', partner.contactPerson);
         setValue('email', partner.email);
-        setValue('phoneNumber', partner.phoneNumber);
+        setValue('phone', partner.phone);
         setValue('industry', partner.industry);
         setValue('password', partner.password);
       } catch (err) {
@@ -59,8 +59,8 @@ const EditPartner: React.FC = () => {
         <input {...register('contactPerson')} />
         <label>{t('email')}</label>
         <input {...register('email')} />
-        <label>{t('phoneNumber')}</label>
-        <input {...register('phoneNumber')} />
+        <label>{t('phone')}</label>
+        <input {...register('phone')} />
         <label>{t('industry')}</label>
         <select {...register('industry')}>
           {(t('industries', { returnObjects: true }) as string[]).map(i => <option key={i} value={i}>{i}</option>)}

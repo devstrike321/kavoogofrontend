@@ -33,17 +33,17 @@ const TransactionDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("transactionId")}</div>
-          <div className="detail-value">{tx.transactionId}</div>
+          <div className="detail-value">{tx.transactionId || t('undefined')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("date")}</div>
-          <div className="detail-value">{tx.date}</div>
+          <div className="detail-value">{tx.date || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
         <div className="flex-item-two">
           <div className="detail-label">{t("status")}</div>
-          <div className="detail-value">{tx.status??"failed"}</div>
+          <div className="detail-value">{tx.status??t("failed")}</div>
         </div>
       </div>
 
@@ -51,11 +51,11 @@ const TransactionDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("campaignName")}</div>
-          <div className="detail-value">{tx.campaign?.name || ''}</div>
+          <div className="detail-value">{tx.campaign?.name || t('noCampaign')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("activityType")}</div>
-          <div className="detail-value">{tx.campaign?.activityType || ''}</div>
+          <div className="detail-value">{tx.campaign?.activityType || t('noCampaign')}</div>
         </div>
       </div>
       <div className="detail-row">
@@ -71,7 +71,7 @@ const TransactionDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-two">
           <div className="detail-label">{t("partner")}</div>
-          <div className="detail-value">{tx.campaign?.partner?.name}</div>
+          <div className="detail-value">{tx.campaign?.partner?.name || t('noCampaign')}</div>
         </div>
       </div>
       <div className="section-title">
@@ -80,21 +80,21 @@ const TransactionDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("user")}</div>
-          <div className="detail-value">{tx.user?.name}</div>
+          <div className="detail-value">{(tx.user?.firstName || tx.user?.lastName) ? (tx.user?.firstName + ' ' + tx.user?.lastName) : t('undefined')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("phone")}</div>
-          <div className="detail-value">{tx.user?.phone}</div>
+          <div className="detail-value">{tx.user?.phone || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("country")}</div>
-          <div className="detail-value">{tx.user?.country}</div>
+          <div className="detail-value">{tx.user?.country || t('undefined')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("city")}</div>
-          <div className="detail-value">{tx.user?.city}</div>
+          <div className="detail-value">{tx.user?.city || t('undefined')}</div>
         </div>
       </div>
       <button onClick={() => navigate("/transactions")} className="secondary">

@@ -26,7 +26,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
-      <img src="/logo.png" alt="Logo" className="logo-large" />
+      <img src="/logo1.png" alt="Logo" className="logo-large" />
       <h1>{t('login')}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('email')}</label>

@@ -41,11 +41,11 @@ const UsersList: React.FC = () => {
         <tbody>
           {filteredUsers.map(user => (
             <tr key={user._id}>
-              <td onClick={() => navigate(`/users/${user._id}`)}>{user.name}</td>
+              <td onClick={() => navigate(`/users/${user._id}`)}>{`${user.firstName} ${user.lastName}`}</td>
               <td>{user.city}</td>
               <td>{user.phone}</td>
-              <td>{user.lastCampaign || 'N/A'}</td>
-              <td><span className={`status-badge status-${(user.status?.toLowerCase() || 'unknown')}`}>{t(user.status?.toLowerCase() || 'unknown')}</span></td>
+              <td>{t(user.transactions[0]?.campaign?.name || 'noCampaign')}</td>
+              <td><span className={`status-badge status-${(user.transactions[0]?.campaign?.status?.toLowerCase() || 'noStatus')}`}>{t(user.transactions[0]?.campaign?.status?.toLowerCase() || 'noStatus')}</span></td>
             </tr>
           ))}
         </tbody>

@@ -13,10 +13,11 @@ const loadAuthFromStorage = (): AuthState => {
   if (storedToken) {
     try {
       const decoded: any = jwtDecode(storedToken);
+        console.log(decoded);
       return {
         token: storedToken,
         role: decoded.role || null,
-        userId: decoded._id || null,
+        userId: decoded.id || null,
       };
     } catch (error) {
       console.error('Invalid token in storage:', error);
@@ -41,7 +42,7 @@ const authSlice = createSlice({
       state.token = action.payload;
       const decoded: any = jwtDecode(action.payload);
       state.role = decoded.role; // Assume backend includes role in token
-      state.userId = decoded._id; // Assume backend includes id in token
+      state.userId = decoded.id; // Assume backend includes id in token
       // Persist token to localStorage
       localStorage.setItem('authToken', action.payload);
     },

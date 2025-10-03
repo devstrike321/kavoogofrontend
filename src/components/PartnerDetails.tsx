@@ -40,37 +40,37 @@ const PartnerDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("partnerName")}</div>
-          <div className="detail-value">{partner.partnerName || "N/A"}</div>
+          <div className="detail-value">{partner.partnerName || t('undefined')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("country")}</div>
-          <div className="detail-value">{partner.country || "N/A"}</div>
+          <div className="detail-value">{partner.country || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("status")}</div>
-          <div className="detail-value">{partner.status || "N/A"}</div>
+          <div className="detail-value">{partner.status || t('undefined')}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("contactPerson")}</div>
-          <div className="detail-value">{partner.contactPerson || "N/A"}</div>
+          <div className="detail-value">{partner.contactPerson || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("email")}</div>
-          <div className="detail-value">{partner.email || "N/A"}</div>
+          <div className="detail-value">{partner.email || t('undefined')}</div>
         </div>
         <div className="flex-item-two">
-          <div className="detail-label">{t("phoneNumber")}</div>
-          <div className="detail-value">{partner.phoneNumber || "N/A"}</div>
+          <div className="detail-label">{t("phone")}</div>
+          <div className="detail-value">{partner.phone || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
         <div className="flex-item-two">
           <div className="detail-label">{t("industry")}</div>
-          <div className="detail-value">{partner.industry || "N/A"}</div>
+          <div className="detail-value">{partner.industry || t('undefined')}</div>
         </div>
       </div>
       <div className="section-title">
@@ -89,8 +89,8 @@ const PartnerDetails: React.FC = () => {
         <tbody>
           {partner.campaigns.map((camp: any) => (
             <tr key={camp._id}>
-              <td>{camp.name || "N/A"}</td>
-              <td>{camp.activityType || "N/A"}</td>
+              <td>{camp.name || t('noCampaign')}</td>
+              <td>{camp.activityType || t('noCampaign')}</td>
               <td>
                 <div
                   className={`status-badge status-${
@@ -100,8 +100,8 @@ const PartnerDetails: React.FC = () => {
                   {t(camp.status?.toLowerCase() || "unknown")}
                 </div>
               </td>
-              <td>{camp.startDate || "N/A"}</td>
-              <td>{camp.endDate || "N/A"}</td>
+              <td>{camp.startDate || t('noCampaign')}</td>
+              <td>{camp.endDate || t('noCampaign')}</td>
             </tr>
           ))}
         </tbody>

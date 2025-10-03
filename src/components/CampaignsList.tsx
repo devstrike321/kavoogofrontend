@@ -60,7 +60,7 @@ const CampaignsList: React.FC = () => {
               <td>{camp.activityType || ''}</td>
               <td>{camp.startDate || ''}</td>
               <td>{camp.endDate || ''}</td>
-              <td>{camp.creationDate || ''}</td>
+              <td>{camp.createdAt || ''}</td>
             </tr>
           ))}
         </tbody>

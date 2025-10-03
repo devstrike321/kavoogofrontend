@@ -23,7 +23,7 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <div className="forgot-container">
-      <img src="/logo.png" alt="Logo" className="logo-large" />
+      <img src="/logo1.png" alt="Logo" className="logo-large" />
       <h1>{t('forgotPassword')}</h1>
       <p>{t('enterEmailReset', { defaultValue: 'Enter your email address and we\'ll send you a link to reset your password.' })}</p>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -40,7 +40,7 @@ const TeamMembersList: React.FC = () => {
         <tbody>
           {team.map(member => (
             <tr key={member._id}>
-              <td>{member.name}</td>
+              <td>{member.firstName} {member.lastName}</td>
               <td>{member.email}</td>
               <td>{member.role}</td>
               <td><span className={`status-badge status-${member.status?.toLowerCase() || 'active'}`}>{t(member.status?.toLowerCase() || 'active')}</span></td>

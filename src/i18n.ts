@@ -93,6 +93,7 @@ i18n.use(initReactI18next).init({
         activityTypes: ['Video', 'Video_Survey', 'Survey'],
         industries: ['Fitness', 'Nutrition', 'Eco', 'Education'],
         roles: ['Admin', 'Manager', 'Support', 'Analyst', 'Developer'],
+        campaignStatus: ['Active', 'InActive'],
         // Success/failure
         campaignCreated: 'Campaign created',
         campaignCreatedMsg: 'Your campaign has been successfully created. You can now view it in the Campaigns list.',
@@ -106,6 +107,10 @@ i18n.use(initReactI18next).init({
         returnToTeamList: 'Return to Team Members List',
         addAnotherTeamMember: 'Add Another Team Member',
         // Add more = require( designs as needed
+        noCampaign: 'No Campaign',
+        noStatus: 'No Status',
+        undefined: "Undefined",
+        editProvider: "Edit Provider",
       },
     },
     fr: {
@@ -197,6 +202,7 @@ i18n.use(initReactI18next).init({
         activityTypes: ['Vidéo', 'Vidéo_Enquête', 'Enquête'],
         industries: ['Fitness', 'Nutrition', 'Éco', 'Éducation'],
         roles: ['Admin', 'Manager', 'Support', 'Analyste', 'Développeur'],
+        campaignStatus: ['Actif', 'InActif'],
         campaignCreated: 'Campagne créée',
         campaignCreatedMsg: 'Votre campagne a été créée avec succès. Vous pouvez maintenant la voir dans la liste des campagnes.',
         createAnotherCampaign: 'Créer une autre campagne',
@@ -209,6 +215,10 @@ i18n.use(initReactI18next).init({
         returnToTeamList: 'Retour à la liste des membres de l\'équipe',
         addAnotherTeamMember: 'Ajouter un autre membre de l\'équipe',
         // Add more
+        noCampaign: 'Aucune campagne',
+        noStatus: 'Aucun statut',
+        undefined: 'indéfini',
+        editProvider: 'modifier le fournisseur'
       },
     },
   },

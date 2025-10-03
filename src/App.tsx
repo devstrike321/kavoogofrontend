@@ -44,6 +44,14 @@ const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   return children;
 };
 
+const AuthedRoute = ({ children }: { children: React.JSX.Element }) => {
+  const { token } = useSelector((state: RootState) => state.auth);
+  if (token) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
+
 const AdminOnlyRoute = ({ children }: { children: React.JSX.Element }) => {
   const role = useSelector((state: RootState) => state.auth.role);
   if (role !== "adminUser") return <Navigate to="/dashboard" />;
@@ -63,9 +71,9 @@ const App: React.FC = () => {
             {isAuth && <Sidebar />}
             <div className="content">
               <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/" element={<Navigate to="/dashboard" />} />
+                <Route path="/login" element={<AuthedRoute><Login /></AuthedRoute>} />
+                <Route path="/forgot-password" element={<AuthedRoute><ForgotPassword /></AuthedRoute>} />
                 <Route
                   path="/dashboard"
                   element={

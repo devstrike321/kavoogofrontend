@@ -11,6 +11,8 @@ const UserDetails: React.FC = () => {
     targetingData: {},
     transactions: [],
   });
+  const [transactionsDetails, setTransactionsDetails] = useState<{ [key: string]: any }>({});
+  const [loadingTransactions, setLoadingTransactions] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +28,37 @@ const UserDetails: React.FC = () => {
     };
     fetchUser();
   }, [id]);
+
+  const fetchTransactions = async (transactionId: string) => {
+    if (transactionsDetails[transactionId]) return; // Skip if already fetched
+
+    setLoadingTransactions(prev => new Set(prev).add(transactionId));
+    try {
+      const res = await axios.get(`/api/transactions/${transactionId}`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      setTransactionsDetails(prev => ({ ...prev, [transactionId]: res.data }));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingTransactions(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(transactionId);
+        return newSet;
+      });
+    }
+  };
+
+  // Fetch all transaction details once after user loads
+  useEffect(() => {
+    if (user.transactions?.length > 0) {
+      user.transactions.forEach((tx: any) => {
+        fetchTransactions(tx); // Assuming tx._id is the ID; adjust if it's tx.id
+      });
+    }
+  }, [user.transactions]);
+
+  const getTransactionData = (txId: string) => transactionsDetails[txId] || {};
 
   return (
     <div>
@@ -92,7 +125,7 @@ const UserDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("salaryRange")}</div>
-          <div className="detail-value">{user.salaryRange || ''}</div>
+          <div className="detail-value">{(user.salaryRangeMin + '-' + user.salaryRangeMax) || ''}</div>
         </div>
       </div>
       <div className="detail-row">
@@ -104,7 +137,7 @@ const UserDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("kidsNoKids")}</div>
-          <div className="detail-value">{user.kidsNoKids || ''}</div>
+          <div className="detail-value">{t(user.hasKids || 'Yes')}</div>
         </div>
       </div>
       <div className="section-title">{t("rewards")}</div>
@@ -113,7 +146,7 @@ const UserDetails: React.FC = () => {
           <div className="detail-label">
             {t("cumulativeCash", { defaultValue: "Cumulative Cash" })}
           </div>
-          <div className="detail-value">${user.rewards || ''}</div>
+          <div className="detail-value">${user.rewards || 0}</div>
         </div>
       </div>
       <div className="section-title">{t("transactionDetails")}</div>
@@ -128,21 +161,26 @@ const UserDetails: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {user.transactions.map((tx: any) => (
-            <tr key={tx._id}>
-              <td>{tx.campaignName}</td>
-              <td>{tx.activityType}</td>
-              <td>{tx.partner}</td>
-              <td>
-                <div
-                  className={`status-badge status-${tx.status?.toLowerCase() || ''}`}
-                >
-                  {t(tx.status?.toLowerCase() || '')}
-                </div>
-              </td>
-              <td>{tx.date}</td>
-            </tr>
-          ))}
+          {user.transactions.map((tx: any) => {
+            const txData = getTransactionData(tx);
+            console.log(txData);
+            const isLoading = loadingTransactions.has(tx);
+            return (
+              <tr key={txData._id}>
+                <td>{isLoading ? 'Loading...' : t(txData.campaign?.name || 'noCampaign')}</td>
+                <td>{isLoading ? 'Loading...' : t(txData.campaign?.activityType || 'noCampaign')}</td>
+                <td>{isLoading ? 'Loading...' : t(txData.campaign?.partner?.partnerName || 'noCampaign')}</td>
+                <td>
+                  <div
+                    className={`status-badge status-${(txData.status?.toLowerCase() || '').replace(' ', '-') || ''}`}
+                  >
+                    {t((txData.status?.toLowerCase() || '').replace(' ', '-') || 'noCampaign')}
+                  </div>
+                </td>
+                <td>{isLoading ? 'Loading...' : t(txData.createdAt || 'noCampaign')}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

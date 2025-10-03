@@ -24,7 +24,7 @@ const MobileProvidersList: React.FC = () => {
   return (
     <div>
       <h1>{t('mobileProviders')}</h1>
-      <button onClick={() => navigate("/add-mobile-provider")} className="primary" style={{ float: 'right' }}>{t('addNewProvider', { defaultValue: 'Add New Provider' })}</button>
+      <button onClick={() => navigate("/add-mobile-provider")} className="primary" style={{ float: 'right' }}>{t('editProvider', { defaultValue: 'Edit Provider' })}</button>
       <table className="table">
         <thead>
           <tr>
@@ -36,7 +36,7 @@ const MobileProvidersList: React.FC = () => {
           {providers.map(provider => (
             <tr key={provider._id}>
               <td>${provider.balance}</td>
-              <td onClick={() => navigate(`/add-mobile-providers/${provider._id}`)}>{t('edit', { defaultValue: 'edit' })}</td>
+              <td onClick={() => navigate(`/add-mobile-provider`)}>{t('edit', { defaultValue: 'edit' })}</td>
             </tr>
           ))}
         </tbody>
