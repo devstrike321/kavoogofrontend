@@ -82,6 +82,8 @@ const TransactionsList: React.FC = () => {
           }
         </tbody>
       </table>
+      {
+        role == "adminUser" && 
       <button
         className="primary"
         onClick={async () => {
@@ -103,6 +105,7 @@ const TransactionsList: React.FC = () => {
       >
         {t("export", { defaultValue: "Export" })}
       </button>
+      }
     </div>
   );
 };
