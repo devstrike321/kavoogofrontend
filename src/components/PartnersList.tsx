@@ -48,8 +48,8 @@ const PartnersList: React.FC = () => {
         </thead>
         <tbody>
           {partners.map((partner) => (
-            <tr key={partner._id}>
-              <td onClick={() => navigate(`/partners/${partner._id}`)}>
+            <tr key={partner.id}>
+              <td onClick={() => navigate(`/partners/${partner.id}`)}>
                 {partner.partnerName}
               </td>
               <td>{partner.country}</td>
@@ -60,7 +60,7 @@ const PartnersList: React.FC = () => {
                   {t(partner.status.toLowerCase() || "noStatus")}
                 </span>
               </td>
-              <td>{t(partner.campaigns[0]?.name || "noCampaign")}</td>
+              <td>{t(partner.Campaigns[0]?.name || "noCampaign")}</td>
             </tr>
           ))}
         </tbody>

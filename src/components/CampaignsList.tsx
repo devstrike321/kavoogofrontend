@@ -53,9 +53,9 @@ const CampaignsList: React.FC = () => {
         </thead>
         <tbody>
           {campaigns.map(camp => (
-            <tr key={camp._id}>
-              <td onClick={()=>navigate(`/campaigns/${camp._id}`)}>{camp.name}</td>
-              <td>{camp.partner[0]?.partnerName || ''}</td>
+            <tr key={camp.id}>
+              <td onClick={()=>navigate(`/campaigns/${camp.id}`)}>{camp.name}</td>
+              <td>{camp.partner?.partnerName || ''}</td>
               <td><span className={`status-badge status-${(camp.status?.toLowerCase() || 'unknown')}`}>{t(camp.status?.toLowerCase() || 'unknown')}</span></td>
               <td>{camp.activityType || ''}</td>
               <td>{camp.startDate || ''}</td>

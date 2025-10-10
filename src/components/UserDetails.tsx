@@ -11,8 +11,6 @@ const UserDetails: React.FC = () => {
     targetingData: {},
     transactions: [],
   });
-  const [transactionsDetails, setTransactionsDetails] = useState<{ [key: string]: any }>({});
-  const [loadingTransactions, setLoadingTransactions] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,37 +26,6 @@ const UserDetails: React.FC = () => {
     };
     fetchUser();
   }, [id]);
-
-  const fetchTransactions = async (transactionId: string) => {
-    if (transactionsDetails[transactionId]) return; // Skip if already fetched
-
-    setLoadingTransactions(prev => new Set(prev).add(transactionId));
-    try {
-      const res = await axios.get(`/api/transactions/${transactionId}`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      setTransactionsDetails(prev => ({ ...prev, [transactionId]: res.data }));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoadingTransactions(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(transactionId);
-        return newSet;
-      });
-    }
-  };
-
-  // Fetch all transaction details once after user loads
-  useEffect(() => {
-    if (user.transactions?.length > 0) {
-      user.transactions.forEach((tx: any) => {
-        fetchTransactions(tx); // Assuming tx._id is the ID; adjust if it's tx.id
-      });
-    }
-  }, [user.transactions]);
-
-  const getTransactionData = (txId: string) => transactionsDetails[txId] || {};
 
   return (
     <div>
@@ -161,23 +128,21 @@ const UserDetails: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {user.transactions.map((tx: any) => {
-            const txData = getTransactionData(tx);
-            console.log(txData);
-            const isLoading = loadingTransactions.has(tx);
+          {user.Transactions?.map((tx: any) => {
+            console.log(tx);
             return (
-              <tr key={txData._id}>
-                <td>{isLoading ? 'Loading...' : t(txData.campaign?.name || 'noCampaign')}</td>
-                <td>{isLoading ? 'Loading...' : t(txData.campaign?.activityType || 'noCampaign')}</td>
-                <td>{isLoading ? 'Loading...' : t(txData.campaign?.partner?.partnerName || 'noCampaign')}</td>
+              <tr key={tx.id}>
+                <td>{ t(tx.Campaign?.name || 'noCampaign')}</td>
+                <td>{ t(tx.Campaign?.activityType || 'noCampaign')}</td>
+                <td>{ t(tx.Campaign?.Partner?.partnerName || 'noCampaign')}</td>
                 <td>
                   <div
-                    className={`status-badge status-${(txData.status?.toLowerCase() || '').replace(' ', '-') || ''}`}
+                    className={`status-badge status-${(tx.status?.toLowerCase() || '').replace(' ', '-') || ''}`}
                   >
-                    {t((txData.status?.toLowerCase() || '').replace(' ', '-') || 'noCampaign')}
+                    {t((tx.status?.toLowerCase() || '').replace(' ', '-') || 'noCampaign')}
                   </div>
                 </td>
-                <td>{isLoading ? 'Loading...' : t(txData.createdAt || 'noCampaign')}</td>
+                <td>{ t(tx.createdAt || 'noCampaign')}</td>
               </tr>
             );
           })}

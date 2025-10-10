@@ -87,8 +87,8 @@ const PartnerDetails: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {partner.campaigns.map((camp: any) => (
-            <tr key={camp._id}>
+          {partner.Campaigns?.map((camp: any) => (
+            <tr key={camp.id}>
               <td>{camp.name || t('noCampaign')}</td>
               <td>{camp.activityType || t('noCampaign')}</td>
               <td>

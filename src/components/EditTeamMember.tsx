@@ -20,10 +20,9 @@ const EditTeamMember: React.FC = () => {
         setValue('lastName', member.lastName);
         setValue('email', member.email);
         setValue('phone', member.phone);
-        setValue('title', member.title);
         setValue('country', member.country);
         setValue('city', member.city);
-        setValue('role', member.role);
+        setValue('role', member.title.charAt(0).toUpperCase() + member.title.slice(1));
       } catch (err) {
         console.error(err);
       }
@@ -61,8 +60,6 @@ const EditTeamMember: React.FC = () => {
         <input {...register('email')} />
         <label>{t('phone')}</label>
         <input {...register('phone')} />
-        <label>{t('title')}</label>
-        <input {...register('title')} />
         <label>{t('country')}</label>
         <select {...register('country')}>
           {(t('countries', { returnObjects: true }) as string[]).map(c => <option key={c} value={c}>{c}</option>)}
@@ -73,7 +70,7 @@ const EditTeamMember: React.FC = () => {
         <select {...register('role')}>
           {(t('roles', { returnObjects: true }) as string[]).map(r => <option key={r} value={r}>{r}</option>)}
         </select>
-        <button className="secondary" type="button" onClick={handleResetPassword}>{t('resetPassword', { defaultValue: 'Reset Password' })}</button>
+        {/*<button className="secondary" type="button" onClick={handleResetPassword}>{t('resetPassword', { defaultValue: 'Reset Password' })}</button> */}
         <button className="primary" type="submit">{t('save')}</button>
         <button className="secondary" type="button" onClick={() => navigate('/team-members')}>{t('cancel')}</button>
       </form>

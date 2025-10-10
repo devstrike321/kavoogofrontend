@@ -34,7 +34,7 @@ const MobileProvidersList: React.FC = () => {
         </thead>
         <tbody>
           {providers.map(provider => (
-            <tr key={provider._id}>
+            <tr key={provider.id}>
               <td>${provider.balance}</td>
               <td onClick={() => navigate(`/add-mobile-provider`)}>{t('edit', { defaultValue: 'edit' })}</td>
             </tr>

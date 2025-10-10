@@ -18,11 +18,11 @@ const EditPartner: React.FC = () => {
 
         setValue('partnerName', partner.partnerName);
         setValue('country', partner.country);
-        setValue('status', partner.status);
+        setValue('status', partner.status.charAt(0).toUpperCase() + partner.status.slice(1));
         setValue('contactPerson', partner.contactPerson);
         setValue('email', partner.email);
         setValue('phone', partner.phone);
-        setValue('industry', partner.industry);
+        setValue('industry', partner.industry.charAt(0).toUpperCase() + partner.industry.slice(1) );
         setValue('password', partner.password);
       } catch (err) {
         console.error(err);

@@ -60,7 +60,7 @@ const CampaignDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("partner")}</div>
-          <div className="detail-value">{campaign.partner ?? ""}</div>
+          <div className="detail-value">{campaign.Partner?.partnerName ?? ""}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("activityType")}</div>
@@ -164,7 +164,7 @@ const CampaignDetails: React.FC = () => {
         <div className="flex-item-one">
           <div className="detail-label">{t("video")}</div>
           <div className="detail-value">
-            {campaign.video?.url ?? "Video thumbnail"}
+            {campaign.videoUrl ?? "Video thumbnail"}
           </div>
         </div>
         <div className="flex-item-two">

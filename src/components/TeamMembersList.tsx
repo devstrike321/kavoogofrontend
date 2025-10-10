@@ -39,12 +39,12 @@ const TeamMembersList: React.FC = () => {
         </thead>
         <tbody>
           {team.map(member => (
-            <tr key={member._id}>
+            <tr key={member.id}>
               <td>{member.firstName} {member.lastName}</td>
               <td>{member.email}</td>
               <td>{member.role}</td>
               <td><span className={`status-badge status-${member.status?.toLowerCase() || 'active'}`}>{t(member.status?.toLowerCase() || 'active')}</span></td>
-              <td><button className = "primary" onClick={() => navigate(`/team-members/edit/${member._id}`)}>{t('edit')}</button></td>
+              <td><button className = "primary" onClick={() => navigate(`/team-members/edit/${member.id}`)}>{t('edit')}</button></td>
             </tr>
           ))}
         </tbody>

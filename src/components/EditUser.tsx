@@ -16,21 +16,29 @@ const EditUser: React.FC = () => {
       try {
         const res = await axios.get(`/api/admins/users/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
         const user = res.data;
+        
+        let rewards = 0;
+        user.Transactions?.map((tx: any) => {
+          rewards += tx.status? 0 : tx.Campaign?.rewardAmount || 0;        
+        });
+
+        console.log(user.kidsNoKids);
+
         setValue('lastName', user.lastName);
         setValue('firstName', user.firstName);
         setValue('email', user.email);
         setValue('phone', user.phone);
-        setValue('dateOfBirth', user.targetingData.dateOfBirth);
-        setValue('gender', user.gender);
-        setValue('country', user.targetingData.country);
-        setValue('city', user.targetingData.city);
-        setValue('employmentStatus', user.targetingData.employmentStatus);
-        setValue('educationLevel', user.targetingData.educationLevel);
-        setValue('salaryMin', user.targetingData.salaryRange.min);
-        setValue('salaryMax', user.targetingData.salaryRange.max);
-        setValue('maritalStatus', user.targetingData.maritalStatus);
-        setValue('kidsNoKids', user.targetingData.kidsNoKids);
-        setValue('rewards', user.rewards);
+        setValue('dateOfBirth', user.dateOfBirth);
+        setValue('gender', user.gender.charAt(0).toUpperCase()+user.gender.slice(1));
+        setValue('country', user.country);
+        setValue('city', user.city);
+        setValue('employmentStatus', user.employmentStatus.charAt(0).toUpperCase() + user.employmentStatus.slice(1));
+        setValue('educationLevel', user.educationLevel);
+        setValue('salaryMin', user.salaryRangeMin);
+        setValue('salaryMax', user.salaryRangeMax);
+        setValue('maritalStatus', user.maritalStatus.charAt(0).toUpperCase() + user.maritalStatus.slice(1));
+        setValue('kidsNoKids', user.kidsNoKids?"Yes":"No");
+        setValue('rewards', rewards);
         // Transactions not editable here
       } catch (err) {
         console.error(err);

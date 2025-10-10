@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
   let totalCash = 0;
 
   transactions.map((tx) => {
-    totalCash += tx.campaign[0]?.rewardAmount || 0;
+    totalCash += tx.campaign?.rewardAmount || 0;
   });
 
   useEffect(() => {
@@ -76,8 +76,8 @@ const Dashboard: React.FC = () => {
 
       const data = analytics.userGrowth || [];
       const counts = Array.from({ length: 30 }, () => 0);
-      data.forEach((item: { _id: number; count: number }) => {
-        const index = item._id - 1;
+      data.forEach((item: { id: number; count: number }) => {
+        const index = item.id - 1;
         if (index >= 0 && index < 30) {
           counts[index] = item.count;
         }
@@ -208,9 +208,13 @@ useEffect(() => {
 
       ctx.clearRect(0, 0, width, height);
 
-      const data = analytics.completions || []; // Assuming data is in analytics.contentTypes
-      const categories = data.map((item: { _id: string; count: number }) => item._id);
-      const counts = data.map((item: { _id: string; count: number }) => item.count);
+      const completionsObj = analytics.completions || {};
+      const data = Object.entries(completionsObj).map(([key, value]) => ({
+        id: key,
+        count: typeof value === "number" ? value : 0,
+      }));
+      const categories = data.map((item) => item.id);
+      const counts = data.map((item) => item.count);
 
       const numBars = categories.length;
       if (numBars === 0) return;

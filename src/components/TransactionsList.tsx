@@ -59,11 +59,11 @@ const TransactionsList: React.FC = () => {
         </thead>
         <tbody>
           {filteredTransactions.map((tx:any) => 
-            ((tx.campaign[0]?.partner[0]?._id == userId && role == "partner") || role == "adminUser") && (
-            <tr key={tx._id}>
-              <td onClick={() => navigate(`/transactions/${tx._id}`)}>{tx.transactionId || t('undefined')}</td>
+            ((tx.Campaign?.Partner?.id == userId && role == "partner") || role == "adminUser") && (
+            <tr key={tx.id}>
+              <td onClick={() => navigate(`/transactions/${tx.id}`)}>{tx.transactionId || t('undefined')}</td>
               <td>{tx.date || t('undefined')}</td>
-              <td>${tx.campaign[0]?.rewardAmount ?? 0}</td>
+              <td>${tx.Campaign?.rewardAmount ?? 0}</td>
               <td>
                 <span
                   className={`status-badge status-${
@@ -73,9 +73,9 @@ const TransactionsList: React.FC = () => {
                   {t(tx.status?.toLowerCase() || "failed")}
                 </span>
               </td>
-              <td>{tx.campaign[0]?.name || t('undefined')}</td>
-              <td>{tx.campaign[0]?.partner[0]?.partnerName || t('undefined')}</td>
-              <td>{(tx.user[0]?.firstName || tx.user[0]?.lastName) ? (tx.user[0]?.firstName + ' ' + tx.user[0].lastName) : t('undefined')}</td>
+              <td>{tx.Campaign?.name || t('undefined')}</td>
+              <td>{tx.Campaign?.Partner?.partnerName || t('undefined')}</td>
+              <td>{(tx.User?.firstName || tx.User?.lastName) ? (tx.User?.firstName + ' ' + tx.User.lastName) : t('undefined')}</td>
             </tr>
           )
           )

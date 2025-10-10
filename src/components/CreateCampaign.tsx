@@ -36,8 +36,8 @@ const CreateCampaign: React.FC = () => {
 
   const defaultPartnerId =
     role === "adminUser"
-      ? partners[0]?._id
-      : partners.find((p) => p._id === userId)?._id;
+      ? partners[0]?.id
+      : partners.find((p) => p.id === userId)?.id;
   
   const defaultMinAge = 18, defaultMaxAge = 59, defaultMinSalary = 0, defaultMaxSalary = 25000;
 
@@ -145,15 +145,15 @@ const CreateCampaign: React.FC = () => {
         >
           {role === "adminUser" &&
             partners.map((partner) => (
-              <option key={partner._id} value={partner._id}>
+              <option key={partner.id} value={partner.id}>
                 {partner.partnerName}
               </option>
             ))}
           {role === "partner" &&
             partners
-              .filter((partner) => partner._id == userId)
+              .filter((partner) => partner.id == userId)
               .map((partner) => (
-                <option key={partner._id} value={partner._id}>
+                <option key={partner.id} value={partner.id}>
                   {partner.partnerName}
                 </option>
               ))}
