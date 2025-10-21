@@ -16,13 +16,17 @@ const EditUser: React.FC = () => {
       try {
         const res = await axios.get(`/api/admins/users/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
         const user = res.data;
+        const code = res.status;
+        const text = res.statusText;
+        console.log(code,text);
+        console.log(res);
         
         let rewards = 0;
-        user.Transactions?.map((tx: any) => {
-          rewards += tx.status? 0 : tx.Campaign?.rewardAmount || 0;        
+        user.transactions?.map((tx: any) => {
+          rewards += tx.status? 0 : tx.campaign?.rewardAmount || 0;        
         });
 
-        console.log(user.kidsNoKids);
+        console.log(user.hasKids);
 
         setValue('lastName', user.lastName);
         setValue('firstName', user.firstName);
@@ -37,7 +41,7 @@ const EditUser: React.FC = () => {
         setValue('salaryMin', user.salaryRangeMin);
         setValue('salaryMax', user.salaryRangeMax);
         setValue('maritalStatus', user.maritalStatus.charAt(0).toUpperCase() + user.maritalStatus.slice(1));
-        setValue('kidsNoKids', user.kidsNoKids?"Yes":"No");
+        setValue('kidsNoKids', user.hasKids?"Yes":"No");
         setValue('rewards', rewards);
         // Transactions not editable here
       } catch (err) {

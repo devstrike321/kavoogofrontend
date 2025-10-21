@@ -83,7 +83,7 @@ i18n.use(initReactI18next).init({
         campaignPerformance: 'Campaign Performance (Completions by Activity Type)',
         rewardDistribution: 'Reward Distribution by Mobile Service Provider',
         // Sample select data
-        countries: ['Côte d’Ivoire', 'United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand'],
+        countries: ['Côte d’Ivoire', 'United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'USA'],
         cities: ['Abidjan', 'San Francisco', 'Los Angeles', 'Chicago', 'New York', 'Miami', 'Seattle', 'Boston', 'Dallas', 'Houston', 'Atlanta'],
         employmentStatuses: ['Employed', 'Unemployed', 'Student', 'Retired'],
         educationLevels: ['primary school', 'high school', 'high school baccalaureate', 'some college', 'college degree', 'advanced degree'],
@@ -192,7 +192,7 @@ i18n.use(initReactI18next).init({
         userGrowth: 'Croissance des utilisateurs (30 derniers jours)',
         campaignPerformance: 'Performance des campagnes (Achèvements par type d\'activité)',
         rewardDistribution: 'Distribution des récompenses par fournisseur de services mobiles',
-        countries: ['Côte d’Ivoire', 'États-Unis', 'Canada', 'Royaume-Uni', 'Australie', 'Nouvelle-Zélande' ],
+        countries: ['Côte d’Ivoire', 'États-Unis', 'Canada','Royaume-Uni', 'Australie', 'Nouvelle-Zélande', 'USA' ], 
         cities: ['Abidjan', 'San Francisco', 'Los Angeles', 'Chicago', 'New York', 'Miami', 'Seattle', 'Boston', 'Dallas', 'Houston', 'Atlanta'],
         employmentStatuses: ['Employé', 'Chômeur', 'Étudiant', 'Retraité'],
         educationLevels: ['école primaire', 'lycée', 'baccalauréat', 'quelques années d\'études supérieures', 'diplôme universitaire', 'diplôme avancé'],

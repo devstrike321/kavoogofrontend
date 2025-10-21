@@ -41,7 +41,7 @@ const RewardsManagement: React.FC = () => {
   let totalCash = 0;
 
   transactions.map((tx) => {
-    totalCash += tx.Campaign?.rewardAmount || 0;
+    totalCash += tx.campaign?.rewardAmount || 0;
   });
 
 
@@ -95,7 +95,7 @@ const RewardsManagement: React.FC = () => {
               <td>{tx.transactionId}</td>
               <td>{tx.date}</td>
               <td>{"Cash"}</td>
-              <td>${tx.Campaign?.rewardAmount || 0}</td>
+              <td>${tx.campaign?.rewardAmount || 0}</td>
               <td>
                 <span
                   className={`status-badge status-${
@@ -105,9 +105,9 @@ const RewardsManagement: React.FC = () => {
                   {t(tx.status?.toLowerCase() || "failed")}
                 </span>
               </td>
-              <td>{tx.Campaign?.name}</td>
-              <td>{tx.Campaign?.Partner?.partnerName}</td>
-              <td>{tx.User?.firstName}</td>
+              <td>{tx.campaign?.name}</td>
+              <td>{tx.campaign?.partner?.partnerName}</td>
+              <td>{tx.user?.firstName}</td>
             </tr>
           ))}
         </tbody>

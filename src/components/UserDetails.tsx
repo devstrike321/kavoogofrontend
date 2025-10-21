@@ -128,13 +128,13 @@ const UserDetails: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {user.Transactions?.map((tx: any) => {
+          {user.transactions?.map((tx: any) => {
             console.log(tx);
             return (
               <tr key={tx.id}>
-                <td>{ t(tx.Campaign?.name || 'noCampaign')}</td>
-                <td>{ t(tx.Campaign?.activityType || 'noCampaign')}</td>
-                <td>{ t(tx.Campaign?.Partner?.partnerName || 'noCampaign')}</td>
+                <td>{ t(tx.campaign?.name || 'noCampaign')}</td>
+                <td>{ t(tx.campaign?.activityType || 'noCampaign')}</td>
+                <td>{ t(tx.campaign?.partner?.partnerName || 'noCampaign')}</td>
                 <td>
                   <div
                     className={`status-badge status-${(tx.status?.toLowerCase() || '').replace(' ', '-') || ''}`}

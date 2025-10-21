@@ -60,7 +60,7 @@ const PartnersList: React.FC = () => {
                   {t(partner.status.toLowerCase() || "noStatus")}
                 </span>
               </td>
-              <td>{t(partner.Campaigns[0]?.name || "noCampaign")}</td>
+              <td>{t(partner.campaigns[0]?.name || "noCampaign")}</td>
             </tr>
           ))}
         </tbody>

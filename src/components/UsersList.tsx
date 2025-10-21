@@ -44,8 +44,8 @@ const UsersList: React.FC = () => {
               <td onClick={() => navigate(`/users/${user.id}`)}>{`${user.firstName} ${user.lastName}`}</td>
               <td>{user.city}</td>
               <td>{user.phone}</td>
-              <td>{t(user.Transactions[0]?.Campaign?.name || 'noCampaign')}</td>
-              <td><span className={`status-badge status-${(user.Transactions[0]?.Campaign?.status?.toLowerCase() || 'noStatus')}`}>{t(user.Transactions?.Campaign?.status?.toLowerCase() || 'noStatus')}</span></td>
+              <td>{t(user.transactions[0]?.campaign?.name || 'noCampaign')}</td>
+              <td><span className={`status-badge status-${(user.transactions[0]?.campaign?.status?.toLowerCase() || 'noStatus')}`}>{t(user.transactions?.campaign?.status?.toLowerCase() || 'noStatus')}</span></td>
             </tr>
           ))}
         </tbody>

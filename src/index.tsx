@@ -8,7 +8,7 @@ import store from './store';
 import { RootState } from './store';
 
 // Set base URL
-axios.defaults.baseURL = process.env.NODE_ENV == 'production'?'https://coral-app-y5jvc.ondigitalocean.app':'http://localhost:5000';
+axios.defaults.baseURL = 'http://localhost:8000';
 
 // Add request interceptor for token
 axios.interceptors.request.use((config) => {
