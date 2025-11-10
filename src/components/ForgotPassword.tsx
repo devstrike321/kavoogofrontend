@@ -27,11 +27,11 @@ const ForgotPassword: React.FC = () => {
       <h1>{t('forgotPassword')}</h1>
       <p>{t('enterEmailReset', { defaultValue: 'Enter your email address and we\'ll send you a link to reset your password.' })}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>{t('email')}</label>
+        <label style={{float:"left"}}>{t('email')}</label>
         <input {...register('email')} placeholder={t('enterEmail', { defaultValue: 'Enter your email' })} />
-        <button className="primary" type="submit">{t('sendResetLink', { defaultValue: 'Send Reset Link' })}</button>
+        <button className="primary" style={{width:"100%"}} type="submit">{t('sendResetLink', { defaultValue: 'Send Reset Link' })}</button>
       </form>
-      <button className="secondary" onClick={() => navigate('/login')}>{t('backToLogin', { defaultValue: 'Back to Login' })}</button>
+      <button className="secondary" style={{width:"100%"}} onClick={() => navigate('/login')}>{t('backToLogin', { defaultValue: 'Back to Login' })}</button>
     </div>
   );
 };

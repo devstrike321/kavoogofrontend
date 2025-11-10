@@ -26,6 +26,7 @@ const AddPartner: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("partners")} </span> <span> / {t('addNewPartner', { defaultValue: 'Add New Partner' })}</span>
       <h1>{t('addNewPartner')}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('partnerName')}</label>
@@ -49,10 +50,6 @@ const AddPartner: React.FC = () => {
         <input {...register('email')} />
         <label>{t('phoneNumber')}</label>
         <input {...register('phoneNumber')} />
-        <label>{t('Confirm Password')}</label>
-        <input {...register('cPassword')} />
-        <label>{t('Password')}</label>
-        <input {...register('password')} />
         <button className="primary" type="submit">{t('save')}</button>
         <button className="secondary" type="button" onClick={() => navigate('/partners')}>{t('cancel')}</button>
       </form>

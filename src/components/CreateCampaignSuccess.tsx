@@ -8,6 +8,7 @@ const CreateCampaignSuccess: React.FC = () => {
 
   return (
     <div className="success-message">
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate("/campaigns")}>{t("Campaign")} </span> <span> / {t("campaignCreated")}</span>
       <h1>{t('campaignCreated')}</h1>
       <p>{t('campaignCreatedMsg')}</p>
       <button onClick={()=>navigate("/campaigns")} className="secondary">{t('backToCampaignsList')}</button>

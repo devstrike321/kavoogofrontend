@@ -21,7 +21,7 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div>
-        <img src="/logo.png" alt="Kavoo GO Logo" className="logo" />
+        <img src="/logo.png" alt="Kavoo GO Logo" className="logo" onClick = {()=>navigate('/Dashboard')} />
         <span className="header-title">{t('headerTitle', { defaultValue: 'Kavoo GO' })}</span>
       </div>
       <div className="header-right">

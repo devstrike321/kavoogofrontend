@@ -8,7 +8,7 @@ import store from './store';
 import { RootState } from './store';
 
 // Set base URL
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://kavoogo-api.kavooapp.com';
 
 // Add request interceptor for token
 axios.interceptors.request.use((config) => {

@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from "./Spinner";
 
 const EditPartner: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPartner = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/admins/partners/${id}`);
         const partner = res.data;
 
@@ -26,6 +29,8 @@ const EditPartner: React.FC = () => {
         setValue('password', partner.password);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPartner();
@@ -33,16 +38,25 @@ const EditPartner: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       await axios.patch(`/api/admins/partners/${id}`, data);
       navigate('/partners');
     } catch (err) {
       alert(t('updateFailed'));
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate("/partners")}>{t("partners")} </span>
+      {" "}
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>/ {t("partnerDetails")} </span>
+      {" "}
+      <span> / {t('editPartnerDetails', { defaultValue: 'Edit Partner Details' })}</span>
       <h1>{t('editPartnerDetails', { defaultValue: 'Edit Partner Details' })}</h1>
+      {loading && <Spinner />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('partnerName')}</label>
         <input {...register('partnerName')} />

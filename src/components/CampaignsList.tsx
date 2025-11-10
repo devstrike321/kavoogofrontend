@@ -5,10 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/auth';
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import Spinner from "./Spinner";
+import Pagination from "./Pagination";
+
+const ITEMS_PER_PAGE = 10;
 
 const CampaignsList: React.FC = () => {
   const { t } = useTranslation();
   const [campaigns, setCampaigns] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // New loading state
+  const [currentPage, setCurrentPage] = useState(1);
 
   const role = useSelector((state: RootState) => state.auth.role);
 
@@ -19,6 +25,7 @@ const CampaignsList: React.FC = () => {
     const fetchCampaigns = async () => {
       try {
         if(role !== 'adminUser' && role !== 'partner') return;
+        setLoading(true);
         if(role === 'partner'){
           const res = await axios.get('/api/partners/campaigns', { headers: { Authorization: `Bearer ${getToken()}` } });
           setCampaigns(res.data);
@@ -28,16 +35,21 @@ const CampaignsList: React.FC = () => {
         setCampaigns(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCampaigns();
   }, []);
 
-  
+  const totalPages = Math.ceil(campaigns.length / ITEMS_PER_PAGE);
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageData = campaigns.slice(start, start + ITEMS_PER_PAGE);
 
   return (
     <div>
       <h1>{t('campaigns')}</h1>
+      {loading && <Spinner />}
       <button className="primary" style={{ float: 'right' }} onClick={()=>navigate("/create-campaign")} >{t('createNewCampaign', { defaultValue: 'Create New Campaign' })}</button>
       <table className="table">
         <thead>
@@ -52,7 +64,7 @@ const CampaignsList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {campaigns.map(camp => (
+          {pageData.map(camp => (
             <tr key={camp.id}>
               <td onClick={()=>navigate(`/campaigns/${camp.id}`)}>{camp.name}</td>
               <td>{camp.partner?.partnerName || ''}</td>
@@ -65,6 +77,11 @@ const CampaignsList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalPages = {totalPages}
+        currentPage = {currentPage}
+        onPageChange = {setCurrentPage}
+      />
     </div>
   );
 };

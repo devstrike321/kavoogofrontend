@@ -4,6 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import Spinner from "./Spinner";
+import Pagination from './Pagination';
+
+const ITEMS_PER_PAGE = 10;
 
 const PartnersList: React.FC = () => {
   const { t } = useTranslation();
@@ -11,25 +15,35 @@ const PartnersList: React.FC = () => {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role);
   const userId = useSelector((state: RootState) => state.auth.userId);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   console.log(role, userId);
 
   useEffect(() => {
     const fetchPartners = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/admins/partners");
         setPartners(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     if (role == "partner") navigate(`/partners/${userId}`);
     else fetchPartners();
   }, []);
 
+  const totalPages = Math.ceil(partners.length / ITEMS_PER_PAGE);
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageData = partners.slice(start, start + ITEMS_PER_PAGE);
+  
   return (
     <div>
       <h1>{t("partners")}</h1>
+      {loading && <Spinner />}
       <button
         onClick={() => navigate("/add-partner")}
         className="primary"
@@ -47,7 +61,7 @@ const PartnersList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {partners.map((partner) => (
+          {pageData.map((partner) => (
             <tr key={partner.id}>
               <td onClick={() => navigate(`/partners/${partner.id}`)}>
                 {partner.partnerName}
@@ -65,6 +79,11 @@ const PartnersList: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalPages = {totalPages}
+        currentPage = {currentPage}
+        onPageChange = {setCurrentPage}
+      />
     </div>
   );
 };

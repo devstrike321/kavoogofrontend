@@ -3,22 +3,27 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner";
 
 const PartnerDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [partner, setPartner] = useState<any>({ campaigns: [] });
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPartner = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/partners/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setPartner(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPartner();
@@ -26,10 +31,12 @@ const PartnerDetails: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("partners")} </span> <span> / {t('partnerDetails', { defaultValue: 'Partner Details' })}</span>
       <h1>{t("partnerDetails")}</h1>
+      {loading && <Spinner />}
       <button
         onClick={() => navigate(`/partners/edit/${id}`)}
-        className="primary"
+        className="secondary"
         style={{ float: "right" }}
       >
         {t("edit")}

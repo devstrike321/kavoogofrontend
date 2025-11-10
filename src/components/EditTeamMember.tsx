@@ -1,19 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import Spinner from "./Spinner";
 
 const EditTeamMember: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMember = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/admins/team/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
         const member = res.data;
         setValue('firstName', member.firstName);
@@ -25,6 +28,8 @@ const EditTeamMember: React.FC = () => {
         setValue('role', member.title.charAt(0).toUpperCase() + member.title.slice(1));
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMember();
@@ -32,10 +37,20 @@ const EditTeamMember: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
+      if(data.role != "Admin") {
+        data.title = data.role.toLowerCase();
+        data.role = "team";
+      } else {
+        data.title = "admin";
+        data.role = "admin";
+      }
       await axios.patch(`/api/admins/team/${id}`, data, { headers: { Authorization: `Bearer ${getToken()}` } });
       navigate('/team-members');
     } catch (err) {
       alert(t('updateFailed'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +65,13 @@ const EditTeamMember: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("teamMembers")} </span>
+      {" "}
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>/ {t("teamMemberDetails")} </span>
+      {" "}
+      <span> / {t('editTeamMember', { defaultValue: 'Edit Team Member Details' })}</span>
       <h1>{t('editTeamMember', { defaultValue: 'Edit Team Member' })}</h1>
+      {loading && <Spinner /> }
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('firstName')}</label>
         <input {...register('firstName')} />

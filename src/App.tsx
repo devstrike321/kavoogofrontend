@@ -32,6 +32,7 @@ import EditTeamMember from "./components/EditTeamMember";
 import MobileProvidersList from "./components/MobileProvidersList";
 import AddMobileProvider from "./components/AddMobileProvider";
 import RewardsManagement from "./components/RewardsManagement";
+import EditCampaign from "./components/EditCampaign";
 import { isAuthenticated, getUserRole } from "./utils/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -151,6 +152,14 @@ const App: React.FC = () => {
                   element={
                     <ProtectedRoute>
                       <CampaignDetails />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/campaigns/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <EditCampaign />
                     </ProtectedRoute>
                   }
                 />

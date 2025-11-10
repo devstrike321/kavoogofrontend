@@ -8,6 +8,7 @@ const CreateCampaignFailure: React.FC = () => {
 
   return (
     <div className="failure-message">
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate("/campaigns")}>{t("Campaign")} </span> <span> / {t("campaignFailed")}</span>
       <h1>{t('campaignFailed')}</h1>
       <p>{t('campaignFailedMsg')}</p>
       <button onClick={()=>navigate("/campaigns")} className="secondary">{t('backToCampaignsList')}</button>

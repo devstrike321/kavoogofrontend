@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -21,12 +22,14 @@ const Dashboard: React.FC = () => {
     // rewardDistribution: { providerX: 40, providerY: 35, providerZ: 25 },
   });
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/analytics");
         // Merge to avoid overwriting with undefined fields
         setAnalytics((prev: any) => ({ ...prev, ...res.data }));
@@ -36,6 +39,8 @@ const Dashboard: React.FC = () => {
         }
         console.error(err);
         navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
     fetchAnalytics();
@@ -44,12 +49,15 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/transactions", {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setTransactions(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTransactions();
@@ -283,6 +291,7 @@ useEffect(() => {
   return (
     <div>
       <h1>{t("dashboard")}</h1>
+      {loading && <Spinner />}
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-value">{analytics.userEngagement.length}</div>

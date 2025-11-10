@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner";
 
 const UserDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -12,16 +13,20 @@ const UserDetails: React.FC = () => {
     transactions: [],
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/admins/users/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setUser(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUser();
@@ -29,10 +34,12 @@ const UserDetails: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("users")} </span> <span> / {t('userDetails', { defaultValue: 'User Details' })}</span>
       <h1>{t("userDetails")}</h1>
+      {loading && <Spinner /> }
       <button
         onClick={() => navigate(`/users/edit/${id}`)}
-        className="primary"
+        className="secondary"
         style={{ float: "right" }}
       >
         {t("edit")}
@@ -104,7 +111,7 @@ const UserDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("kidsNoKids")}</div>
-          <div className="detail-value">{t(user.hasKids || 'Yes')}</div>
+          <div className="detail-value">{t(user.hasKids? 'Yes':'No')}</div>
         </div>
       </div>
       <div className="section-title">{t("rewards")}</div>

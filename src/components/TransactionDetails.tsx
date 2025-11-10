@@ -3,22 +3,27 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner";
 
 const TransactionDetails: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [tx, setTx] = useState<any>({ participant: {} });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTx = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/transactions/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setTx(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTx();
@@ -26,7 +31,9 @@ const TransactionDetails: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("transactions")} </span> <span> / {t('transactionDetails', { defaultValue: 'Transaction Details' })}</span>
       <h1>{t("transactionDetails")}</h1>
+      {loading && <Spinner /> }
       <div className="section-title">
         {t("transactionProfile", { defaultValue: "Transaction Profile" })}
       </div>

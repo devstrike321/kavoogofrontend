@@ -3,22 +3,31 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner";
+import Pagination from './Pagination';
+
+const ITEMS_PER_PAGE = 10;
 
 const RewardsManagement: React.FC = () => {
   const { t } = useTranslation();
   const [providers, setProviders] = useState<any[]>([]);
   const [transactions, setTransactions] = useState<any[]>([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchProviders = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/admins/providers", {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setProviders(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProviders();
@@ -27,12 +36,15 @@ const RewardsManagement: React.FC = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/api/transactions", {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setTransactions(res.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTransactions();
@@ -44,11 +56,16 @@ const RewardsManagement: React.FC = () => {
     totalCash += tx.campaign?.rewardAmount || 0;
   });
 
+  const totalPages = Math.ceil(transactions.length / ITEMS_PER_PAGE);
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageData = transactions.slice(start, start + ITEMS_PER_PAGE);
+
 
 
   return (
     <div>
       <h1>{t("rewards")}</h1>
+      {loading && <Spinner />}
       <div className="section-title">
         {t("totalRewardsDistributed", {
           defaultValue: "Total Rewards Distributed",
@@ -90,7 +107,7 @@ const RewardsManagement: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((tx: any) => (
+          {pageData.map((tx: any) => (
             <tr key={tx.id}>
               <td>{tx.transactionId}</td>
               <td>{tx.date}</td>
@@ -112,6 +129,11 @@ const RewardsManagement: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };

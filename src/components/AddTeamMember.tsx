@@ -11,6 +11,13 @@ const AddTeamMember: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      if(data.role != "Admin") {
+        data.title = data.role.toLowerCase();
+        data.role = "team";
+      } else {
+        data.title = "admin";
+        data.role = "admin";
+      }
       await axios.post('/api/admins/team', data);
       navigate('/team-members');
     } catch (err) {
@@ -20,6 +27,7 @@ const AddTeamMember: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("teamMembers")} </span> <span> / {t("addNewTeamMember", {defaultValue: 'Add New Team Member'})}</span>
       <h1>{t('addNewTeamMember')}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('firstName', { defaultValue: 'First Name' })}</label>
@@ -30,8 +38,6 @@ const AddTeamMember: React.FC = () => {
         <input {...register('email')} />
         <label>{t('phone')}</label>
         <input {...register('phone')} />
-        <label>{t('title')}</label>
-        <input {...register('title')} />
         <label>{t('country')}</label>
         <select {...register('country')}>
           {(t('countries', { returnObjects: true }) as string[]).map(c => <option key={c} value={c}>{c}</option>)}

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import Spinner from "./Spinner"
 
 const CampaignDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -15,6 +16,7 @@ const CampaignDetails: React.FC = () => {
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`/api/campaigns/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
@@ -30,7 +32,7 @@ const CampaignDetails: React.FC = () => {
   }, [id]); // Add 'id' to deps if it might change, but [] is fine if static
 
   if (loading) {
-    return <div>{t("loading", { defaultValue: "Loading..." })}</div>; // Simple loading indicator
+    return <Spinner /> // Simple loading indicator
   }
 
   if (error) {
@@ -45,7 +47,16 @@ const CampaignDetails: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("Campaign")} </span> <span> / {t("campaignDetails")}</span>
+      <button
+        onClick={() => navigate(`/campaigns/edit/${id}`)}
+        className="secondary"
+        style={{ float: "right" }}
+      >
+        {t("edit")}
+      </button>
       <h1>{t("campaignDetails")}</h1>
+      {loading && <Spinner />}
       <div className="section-title">{t("campaignDetails")}</div>
       <div className="detail-row">
         <div className="flex-item-one">
@@ -116,7 +127,7 @@ const CampaignDetails: React.FC = () => {
         <div className="flex-item-two">
           <div className="detail-label">{t("salaryRange")}</div>
           <div className="detail-value">
-            {campaign.salaryMin ?? "0"} - {campaign.salaryMax ?? "25000"}
+            {campaign.minSalary  ?? "0"} - {campaign.maxSalary ?? "25000"}
           </div>
         </div>
       </div>
@@ -129,7 +140,7 @@ const CampaignDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("kidsNoKids")}</div>
-          <div className="detail-value">{campaign.kidsNoKids ?? "Yes"}</div>
+          <div className="detail-value">{campaign.hasKids ? "Yes":"No"}</div>
         </div>
       </div>
       <div className="section-title">{t("rewards")}</div>
@@ -169,7 +180,7 @@ const CampaignDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("surveyLink")}</div>
-          <div className="detail-value">{campaign.survey ?? "No Survey Link"}</div>
+          <div className="detail-value">{campaign.surveyLink ?? "No Survey Link"}</div>
         </div>
       </div>
     </div>

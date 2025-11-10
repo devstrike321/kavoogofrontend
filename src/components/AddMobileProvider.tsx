@@ -20,6 +20,7 @@ const AddMobileProvider: React.FC = () => {
 
   return (
     <div>
+      <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("mobileProviders")} </span> <span> / {t('addNewMobileProvider', { defaultValue: 'Add New Mobile Provider' })}</span>
       <h1>{t('addNewMobileProvider', { defaultValue: 'Add New Mobile Provider' })}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>{t('cashAmount')}</label>

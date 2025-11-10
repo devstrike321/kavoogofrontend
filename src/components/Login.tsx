@@ -29,13 +29,13 @@ const Login: React.FC = () => {
       <img src="/logo1.png" alt="Logo" className="logo-large" />
       <h1>{t('login')}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>{t('email')}</label>
+        <label style={{float:"left"}}>{t('email')}</label>
         <input {...register('email')} placeholder={t('enterEmail', { defaultValue: 'Enter your username or email' })} />
-        <label>{t('password')}</label>
+        <label style={{float:"left"}}>{t('password')}</label>
         <input type="password" {...register('password')} placeholder={t('enterPassword', { defaultValue: 'Enter your password' })} />
-        <button className="primary" type="submit">{t('login')}</button>
+        <button className="primary" style={{width:"100%"}} type="submit">{t('login')}</button>
       </form>
-      <button className="secondary" onClick={() => navigate('/forgot-password')}>{t('forgotPassword')}</button>
+      <button className="secondary"  style = {{float:"right"}} onClick={() => navigate('/forgot-password')}>{t('forgotPassword')}</button>
     </div>
   );
 };
