@@ -187,7 +187,7 @@ const TransactionsList: React.FC = () => {
           {pageData.map(tx =>
             <tr key={tx.id}>
               <td onClick={() => navigate(`/transactions/${tx.id}`)}>{tx.transactionId || t('undefined')}</td>
-              <td>{tx.date || t('undefined')}</td>
+              <td>{tx.date?.split('T')[0] || '' || t('undefined')}</td>
               <td>${tx.campaign?.rewardAmount ?? 0}</td>
               <td><span className={`status-badge status-${tx.status?.toLowerCase() || "failed"}`}>{t(tx.status?.toLowerCase() || "failed")}</span></td>
               <td>{tx.campaign?.name || t('undefined')}</td>

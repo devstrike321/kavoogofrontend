@@ -48,10 +48,6 @@ const AddTeamMember: React.FC = () => {
         <select {...register('role')}>
           {(t('roles', { returnObjects: true }) as string[]).map(r => <option key={r} value={r}>{r}</option>)}
         </select>
-        <label>{t('temporaryPassword')}</label>
-        <input {...register('temporaryPassword')} />
-        <input type="checkbox" {...register('sendResetLink')} />
-        <label>{t('sendResetLink')}</label>
         <button className="primary" type="submit">{t('save')}</button>
         <button className="secondary" type="button" onClick={() => navigate('/team-members')}>{t('cancel')}</button>
       </form>

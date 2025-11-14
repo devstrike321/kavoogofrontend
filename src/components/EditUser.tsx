@@ -67,14 +67,14 @@ const EditUser: React.FC = () => {
 
   return (
     <div>
-      <h1>{t('editUserDetails', { defaultValue: 'Edit User Details' })}</h1>
-      {loading ? <Spinner /> : null}
       <span style={{ cursor: "pointer", color: "orange" }} onClick={() => navigate("/users")}>
         {t("Users")}
       </span>{" "}
       <span style={{ cursor: "pointer", color: "orange" }} onClick={() => navigate(-1)}>/ {t("userDetails")}
       </span>{" "}
-      / {t("editUser")}
+      / {t("editUserDetails")}
+      <h1>{t('editUserDetails', { defaultValue: 'Edit User Details' })}</h1>
+      {loading ? <Spinner /> : null}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="section-title">{t('userProfileDetails')}</div>
 

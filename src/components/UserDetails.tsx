@@ -71,7 +71,7 @@ const UserDetails: React.FC = () => {
           <div className="detail-label">
             {t("dateOfBirth", { defaultValue: "Date of Birth" })}
           </div>
-          <div className="detail-value">{user.dateOfBirth || ''}</div>
+          <div className="detail-value">{user.dateOfBirth?.split('T')[0] || '' || ''}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("country")}</div>
@@ -149,7 +149,7 @@ const UserDetails: React.FC = () => {
                     {t((tx.status?.toLowerCase() || '').replace(' ', '-') || 'noCampaign')}
                   </div>
                 </td>
-                <td>{ t(tx.createdAt || 'noCampaign')}</td>
+                <td>{ t(tx.createdAt?.split('T')[0] || '' || 'noCampaign')}</td>
               </tr>
             );
           })}

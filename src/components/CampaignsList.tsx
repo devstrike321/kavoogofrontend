@@ -70,9 +70,9 @@ const CampaignsList: React.FC = () => {
               <td>{camp.partner?.partnerName || ''}</td>
               <td><span className={`status-badge status-${(camp.status?.toLowerCase() || 'unknown')}`}>{t(camp.status?.toLowerCase() || 'unknown')}</span></td>
               <td>{camp.activityType || ''}</td>
-              <td>{camp.startDate || ''}</td>
-              <td>{camp.endDate || ''}</td>
-              <td>{camp.createdAt || ''}</td>
+              <td>{camp.startDate?.split('T')[0] || ''}</td>
+              <td>{camp.endDate?.split('T')[0] || ''}</td>
+              <td>{camp.createdAt?.split('T')[0] || ''}</td>
             </tr>
           ))}
         </tbody>

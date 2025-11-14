@@ -81,11 +81,11 @@ const CampaignDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("startDate")}</div>
-          <div className="detail-value">{campaign.startDate ?? ""}</div>
+          <div className="detail-value">{campaign.startDate?.split('T')[0] ?? ""}</div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("endDate")}</div>
-          <div className="detail-value">{campaign.endDate ?? ""}</div>
+          <div className="detail-value">{campaign.endDate?.split('T')[0] ?? ""}</div>
         </div>
       </div>
       <div className="section-title">
@@ -174,13 +174,15 @@ const CampaignDetails: React.FC = () => {
       <div className="detail-row">
         <div className="flex-item-one">
           <div className="detail-label">{t("video")}</div>
-          <div className="detail-value">
+          <div className="detail-value" onClick={() => window.open(campaign.videoUrl??"", '_blank')} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
             {campaign.videoUrl ?? "Video thumbnail"}
           </div>
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("surveyLink")}</div>
-          <div className="detail-value">{campaign.surveyLink ?? "No Survey Link"}</div>
+          <div className="detail-value" onClick={() => window.open(campaign.surveyLink??"", '_blank')} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+            {campaign.surveyLink ?? "No Survey Link"}
+          </div>
         </div>
       </div>
     </div>

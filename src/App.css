@@ -299,7 +299,7 @@ button.secondary {
 }
 
 .detail-label {
-  border-top: 1px solid #F5A623;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
   font-weight: bold;
   color: #8A7A6B;
 }
@@ -308,6 +308,9 @@ button.secondary {
   margin-top: 10px;
   margin-bottom: 10px;
   color: #4A3F35;
+  white-space: normal;      /* Allows text to wrap */
+  word-wrap: break-word;    /* Breaks long words if needed */
+  overflow-wrap: break-word; /* Modern equivalent */
 }
 
 .flex-item-one {

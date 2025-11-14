@@ -107,8 +107,8 @@ const PartnerDetails: React.FC = () => {
                   {t(camp.status?.toLowerCase() || "unknown")}
                 </div>
               </td>
-              <td>{camp.startDate || t('noCampaign')}</td>
-              <td>{camp.endDate || t('noCampaign')}</td>
+              <td>{camp.startDate?.split('T')[0] || '' || t('noCampaign')}</td>
+              <td>{camp.endDate?.split('T')[0] || '' || t('noCampaign')}</td>
             </tr>
           ))}
         </tbody>

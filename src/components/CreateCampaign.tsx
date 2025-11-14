@@ -25,6 +25,7 @@ const CreateCampaign: React.FC = () => {
   const [costUser, setCostUser] = useState<number>(0);
   const [userCount, setUserCount] = useState<number>(0);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const [uploadMethod, setUploadMethod] = useState<string | null>(null);
 
   const role = useSelector((state: RootState) => state.auth.role);
   const userId = useSelector((state: RootState) => state.auth.userId);
@@ -202,14 +203,40 @@ const CreateCampaign: React.FC = () => {
   };
 
   const dropzone = (
-    <div className="upload-container">
-      {" "}
-      {/* Wrapper for better organization */}
-      <Dropzone onDrop={onDrop}>
+  <div className="upload-container">
+    {/* --- Upload Method Selection --- */}
+    <div className="method-selection">
+      <div>
+        <input
+          type="radio"
+          style={{width:"auto"}}
+          name="uploadMethod"
+          value="upload"
+          checked={uploadMethod === "upload"}
+          onChange={() => setUploadMethod("upload")}
+        />
+        {t("uploadContent", { defaultValue: "Upload Video File" })}
+      </div>
+      <div>
+        <input
+          type="radio"
+          style={{width:"auto"}}
+          name="uploadMethod"
+          value="url"
+          checked={uploadMethod === "url"}
+          onChange={() => setUploadMethod("url")}
+        />
+        {t("addUrl", { defaultValue: "Add Video URL" })}
+      </div>
+    </div>
+
+    {/* --- Dropzone Section --- */}
+    {uploadMethod === "upload" && (
+      <Dropzone onDrop={onDrop} accept={{ "video/*": [] }}>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />
-            <p>{t("dragOrBrowse")}</p>
+            <p>{t("dragOrBrowse", { defaultValue: "Drag a file or click Browse" })}</p>
             <button className="secondary" type="button">
               {t("browse", { defaultValue: "Browse" })}
             </button>
@@ -221,20 +248,27 @@ const CreateCampaign: React.FC = () => {
           </div>
         )}
       </Dropzone>
+    )}
+
+    {/* --- URL Input Section --- */}
+    {uploadMethod === "url" && (
       <div className="url-section">
         <p>
           {t("orPasteUrl", {
-            defaultValue: "Or paste a video URL (e.g., YouTube)",
+            defaultValue: "Paste a video URL (e.g., YouTube)",
           })}
         </p>
         <input
+          style={{width:"90%"}}
           id="video-url-input"
           type="text"
           placeholder="https://www.youtube.com/watch?v=example"
           className="url-input"
+          value={videoUrl??""}
+          onChange={(e) => setVideoUrl(e.target.value)}
         />
         <button className="secondary" type="button" onClick={onAddUrl}>
-          {t("addUrl", { defaultValue: "Add URL" })}
+          {t("addUrl", { defaultValue: "SET" })}
         </button>
         {videoUrl && (
           <p>
@@ -242,9 +276,9 @@ const CreateCampaign: React.FC = () => {
           </p>
         )}
       </div>
-    </div>
-  );
-
+    )}
+  </div>
+);
   return (
     <div>
       <span style={{cursor:"pointer", color:"orange"}} onClick={()=>navigate(-1)}>{t("campaign")} </span> <span> / {t('createCampaign', { defaultValue: 'Create New Campaign' })}</span>

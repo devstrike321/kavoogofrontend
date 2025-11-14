@@ -44,7 +44,7 @@ const TransactionDetails: React.FC = () => {
         </div>
         <div className="flex-item-two">
           <div className="detail-label">{t("date")}</div>
-          <div className="detail-value">{tx.date || t('undefined')}</div>
+          <div className="detail-value">{tx.date?.split('T')[0] || '' || t('undefined')}</div>
         </div>
       </div>
       <div className="detail-row">
@@ -54,10 +54,10 @@ const TransactionDetails: React.FC = () => {
         </div>
       </div>
 
-      <div className="section-title">{t("CampaignDetails")}</div>
+      <div className="section-title">{t("campaignDetails")}</div>
       <div className="detail-row">
         <div className="flex-item-one">
-          <div className="detail-label">{t("CampaignName")}</div>
+          <div className="detail-label">{t("campaignName")}</div>
           <div className="detail-value">{tx.campaign?.name || t('noCampaign')}</div>
         </div>
         <div className="flex-item-two">

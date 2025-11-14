@@ -83,7 +83,7 @@ i18n.use(initReactI18next).init({
         campaignPerformance: 'Campaign Performance (Completions by Activity Type)',
         rewardDistribution: 'Reward Distribution by Mobile Service Provider',
         // Sample select data
-        countries: ['Côte d’Ivoire', 'United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'USA'],
+        countries: ['Côte d’Ivoire', 'Canada', 'United Kingdom', 'Australia', 'New Zealand', 'USA'],
         cities: ['Abidjan', 'San Francisco', 'Los Angeles', 'Chicago', 'New York', 'Miami', 'Seattle', 'Boston', 'Dallas', 'Houston', 'Atlanta'],
         maritalStatuses: ['Single', 'Married', 'Divorced', 'Widowed', 'Separated'],
         kidsOptions: ['Yes', 'No'],
@@ -109,6 +109,20 @@ i18n.use(initReactI18next).init({
         noStatus: 'No Status',
         undefined: "Undefined",
         editProvider: "Edit Provider",
+
+
+        //page Titles
+        addNewTeamMember: 'Add New Team Member',
+        transactionDetails: 'Transaction Details',
+        partnerDetails: 'Partner Details',
+        campaignDetails: 'Campaign Details',
+        editCampaign: 'Edit Campaign',
+        userTargeting: 'User Targeting',
+        budgetAndLimit: 'Budget And Limit',
+        userDetails: 'User Details',
+        targetingData: 'Targeting Data',
+        userProfileDetails: 'User Profile Details',
+        partnerName: 'Partner Name'
       },
     },
     fr: {
@@ -190,7 +204,7 @@ i18n.use(initReactI18next).init({
         userGrowth: 'Croissance des utilisateurs (30 derniers jours)',
         campaignPerformance: 'Performance des campagnes (Achèvements par type d\'activité)',
         rewardDistribution: 'Distribution des récompenses par fournisseur de services mobiles',
-        countries: ['Côte d’Ivoire', 'États-Unis', 'Canada','Royaume-Uni', 'Australie', 'Nouvelle-Zélande', 'USA' ], 
+        countries: ['Côte d’Ivoire', 'Canada','Royaume-Uni', 'Australie', 'Nouvelle-Zélande', 'USA' ], 
         cities: ['Abidjan', 'San Francisco', 'Los Angeles', 'Chicago', 'New York', 'Miami', 'Seattle', 'Boston', 'Dallas', 'Houston', 'Atlanta'],
         maritalStatuses: ['Célibataire', 'Marié', 'Divorcé', 'Veuf', 'Séparé'],
         kidsOptions: ['Oui', 'Non'],
@@ -214,7 +228,20 @@ i18n.use(initReactI18next).init({
         noCampaign: 'Aucune campagne',
         noStatus: 'Aucun statut',
         undefined: 'indéfini',
-        editProvider: 'modifier le fournisseur'
+        editProvider: 'modifier le fournisseur',
+
+        //page titles
+        addNewTeamMember: 'Ajouter un nouveau membre à l`équipe',
+        transactionDetails: 'Détails de la transaction',
+        partnerDetails: 'Détails du partenaire',
+        campaignDetails: 'Détails de la campagne',
+        editCampaign: 'Modifier la campagne',
+        userTargeting: 'Ciblage des utilisateurs',
+        budgetAndLimit: 'Budget et limite',
+        userDetails : 'Détails de l’utilisateur',
+        targetingData : 'Données de ciblage',
+        userProfileDetails : 'Détails du profil de l’utilisateur',
+        partnerName: 'Nom de Partnenaire'
       },
     },
   },
